@@ -2,3 +2,7 @@
 #+OPTIONS: toc:4 h:4
 
 * Configuration
+#+begin_src emacs-lisp
+  (setq user-full-name "Sacha Trémoureux"
+        user-mail-address "sacha@tremoureux.fr")
+#+end_src
