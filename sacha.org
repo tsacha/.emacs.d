@@ -2,7 +2,6 @@
 #+OPTIONS: toc:4 h:4
 
 * Configuration
-
 ** Personal information
 
 #+begin_src emacs-lisp
@@ -27,9 +26,7 @@
 #+end_src
 
 ** General configuration
-
 *** Backups
-
 #+begin_src emacs-lisp
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (setq delete-old-versions -1)
@@ -39,7 +36,6 @@
 #+end_src
 
 *** History
-
 #+begin_src emacs-lisp
   (setq savehist-file "~/.emacs.d/savehist")
   (savehist-mode 1)
@@ -50,4 +46,81 @@
         '(kill-ring
           search-ring
           regexp-search-ring))
+#+end_src
+** Packages
+*** Org
+    
+Override default Org keybinding.
+
+#+begin_src emacs-lisp
+  (use-package org
+    :config
+    (define-key org-mode-map (kbd "C-a") nil)
+    (define-key org-mode-map (kbd "C-e") nil)
+    (define-key org-mode-map (kbd "M-a") nil)
+    (define-key org-mode-map (kbd "M-e") nil)
+    )
+#+end_src
+
+
+*** Undo Tree
+
+#+begin_src emacs-lisp
+  (use-package undo-tree
+    :ensure undo-tree
+    :init 
+    (progn
+      (global-undo-tree-mode)
+      (setq undo-tree-visualizer-timestamps t)
+      (setq undo-tree-visualizer-diff t))
+    )
+#+end_src
+
+
+** Key Bindings
+*** Movement
+I use a special keyboard layout intended for the French language: [[http://bepo.fr][Bépo]]. I am trying to have some ergonomic keybinds with basic operations in Emacs.
+
+#+begin_src emacs-lisp
+  (bind-keys ("M-a" . backward-char)
+             ("M-i" . next-line)
+             ("M-u" . previous-line)
+             ("M-e" . forward-char)
+             ("C-a" . backward-word)
+             ("C-e" . forward-word)
+             ("M-b" . beginning-of-line)
+             ("M-o" . end-of-line)
+             ("M-." . scroll-up)
+             ("M-y" . scroll-down)
+             ("C-b" . beginning-of-buffer)
+             ("C-w" . end-of-buffer)
+             ("M-é" . backward-paragraph)
+             ("M-p" . forward-paragraph)
+             ("M-c" . kill-line)
+             ("C-c" . kill-sentence)
+             ("M-t" . delete-char)
+             ("C-t" . kill-word)
+             ("M-v" . undo-tree-undo)
+             ("M-d" . undo-tree-redo)
+             ("C-v" . undo-tree-switch-branch)
+             ("M-g" . save-buffers-kill-terminal)
+             ("C-q" . find-file)
+             ("M-q" . save-buffer)
+             ("M-+" . set-mark-command)
+             ("M--" . mark-whole-buffer)
+             ("M-j" . kill-ring-save)
+             ("M-n" . yank)
+             ("M-m" . yank-pop)
+             ("M-f" . kill-region)
+             ("M-," . universal-argument)
+             ("M-h" . goto-line)
+             ("M-z" . shell-command)
+             ("M-$" . other-window)
+             ("M-\"" . split-window-right)
+             ("M-«" . split-window-below)
+             ("M-»" . delete-other-windows)
+             ("M-(" . delete-window)
+  )
+(define-key minibuffer-local-map (kbd "C-p") 'next-complete-history-element)
+(define-key minibuffer-local-map (kbd "M-n") 'yank)
 #+end_src
