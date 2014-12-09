@@ -1,1 +1,4 @@
 sacha.el
+auto-save-list/
+*~
+savehist

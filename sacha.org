@@ -2,7 +2,52 @@
 #+OPTIONS: toc:4 h:4
 
 * Configuration
+
+** Personal information
+
 #+begin_src emacs-lisp
   (setq user-full-name "Sacha Trémoureux"
         user-mail-address "sacha@tremoureux.fr")
+#+end_src
+
+** Emacs initialization
+
+*** Add elisp directory
+
+#+begin_src emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/elisp")
+(require 'use-package)
+#+end_src
+
+*** Add package sources
+
+#+begin_src emacs-lisp
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+#+end_src
+
+** General configuration
+
+*** Backups
+
+#+begin_src emacs-lisp
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+#+end_src
+
+*** History
+
+#+begin_src emacs-lisp
+  (setq savehist-file "~/.emacs.d/savehist")
+  (savehist-mode 1)
+  (setq history-length t)
+  (setq history-delete-duplicates t)
+  (setq savehist-save-minibuffer-history 1)
+  (setq savehist-additional-variables
+        '(kill-ring
+          search-ring
+          regexp-search-ring))
 #+end_src
