@@ -1,0 +1,4 @@
+#+TITLE: Sacha Trémoureux's Emacs configuration
+#+OPTIONS: toc:4 h:4
+
+* Configuration
