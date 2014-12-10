@@ -1,6 +1,12 @@
 #+TITLE: Sacha Trémoureux's Emacs configuration
 #+OPTIONS: toc:4 h:4
 
+* Introduction
+Inspired by :
+
+- [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chua's Emacs Configuration]]
+- [[https://github.com/mwfogleman/config/blob/master/home/.emacs.d/michael.org][Michael Fogleman’s Emacs configuration]]
+
 * Configuration
 ** Personal information
 
@@ -10,7 +16,6 @@
 #+end_src
 
 ** Emacs initialization
-
 *** Add elisp directory
 
 #+begin_src emacs-lisp
@@ -23,6 +28,13 @@
 #+begin_src emacs-lisp
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+#+end_src
+
+*** Startup messages
+#+begin_src emacs-lisp
+(setq inhibit-startup-message t
+      initial-scratch-message ""
+      inhibit-startup-echo-area-message t)
 #+end_src
 
 ** General configuration
@@ -47,6 +59,39 @@
           search-ring
           regexp-search-ring))
 #+end_src
+*** Window
+#+begin_src emacs-lisp
+  (when window-system
+    (tooltip-mode -1)
+    (tool-bar-mode -1)
+    (menu-bar-mode -1)
+    (scroll-bar-mode -1))
+#+end_src
+*** Sentences end with a single space
+#+begin_src emacs-lisp
+  (setq sentence-end-double-space nil)
+#+end_src
+
+*** Change "yes or no" to "y or n"
+#+begin_src emacs-lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+*** UTF-8
+#+begin_src emacs-lisp
+  (prefer-coding-system 'utf-8)
+  (when (display-graphic-p)
+    (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+#+end_src
+
+*** Recent files
+#+begin_src emacs-lisp
+  (require 'recentf)
+  (setq recentf-max-saved-items 200
+        recentf-max-menu-items 15)
+  (recentf-mode)
+#+end_src
+
 ** Packages
 *** Org
     
@@ -62,23 +107,20 @@ Override default Org keybinding.
     )
 #+end_src
 
-
 *** Undo Tree
-
 #+begin_src emacs-lisp
   (use-package undo-tree
     :ensure undo-tree
     :init 
     (progn
       (global-undo-tree-mode)
-      (setq undo-tree-visualizer-timestamps t)
-      (setq undo-tree-visualizer-diff t))
+      (setq undo-tree-mode-lighter "UT")
     )
+  )
 #+end_src
 
-
 ** Key Bindings
-*** Movement
+*** Basic operations
 I use a special keyboard layout intended for the French language: [[http://bepo.fr][Bépo]]. I am trying to have some ergonomic keybinds with basic operations in Emacs.
 
 #+begin_src emacs-lisp
@@ -120,7 +162,22 @@ I use a special keyboard layout intended for the French language: [[http://bepo.
              ("M-«" . split-window-below)
              ("M-»" . delete-other-windows)
              ("M-(" . delete-window)
+	     ("RET" . newline-and-indent)
+	     ("C-j" . newline-and-indent)
   )
 (define-key minibuffer-local-map (kbd "C-p") 'next-complete-history-element)
 (define-key minibuffer-local-map (kbd "M-n") 'yank)
 #+end_src
+** Coding
+*** Tab width
+#+begin_src emacs-lisp
+  (setq-default tab-width 2)
+#+end_src
+
+*** Column number
+#+begin_src emacs-lisp
+  (column-number-mode 1)
+#+end_src
+
+
+
