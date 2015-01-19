@@ -9,5 +9,3 @@
 
 (require 'org)
 (org-babel-load-file (concat (getenv "HOME") "/.emacs.d/sacha.org"))
-
-

@@ -59,12 +59,20 @@ Inspired by :
           search-ring
           regexp-search-ring))
 #+end_src
+*** Theme
+#+BEGIN_SRC emacs-lisp
+(load-theme 'leuven t)
+#+END_SRC
+*** Font
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist
+'(font . "DejaVu Sans Mono-14"))
+#+end_src
 *** Window
 #+begin_src emacs-lisp
   (when window-system
     (tooltip-mode -1)
     (tool-bar-mode -1)
-    (menu-bar-mode -1)
     (scroll-bar-mode -1))
 #+end_src
 *** Sentences end with a single space
@@ -152,6 +160,9 @@ I use a special keyboard layout intended for the French language: [[http://bepo.
              ("M--" . mark-whole-buffer)
              ("M-j" . kill-ring-save)
              ("M-n" . yank)
+             ("C-S-c" . clipboard-kill-ring-save)
+             ("C-S-x" . clipboard-kill-region)
+             ("C-S-v" . clipboard-yank)
              ("M-m" . yank-pop)
              ("M-f" . kill-region)
              ("M-," . universal-argument)
