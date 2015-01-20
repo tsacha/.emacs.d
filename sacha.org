@@ -10,45 +10,47 @@ Inspired by :
 * Configuration
 ** Personal information
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (setq user-full-name "Sacha Trémoureux"
         user-mail-address "sacha@tremoureux.fr")
-#+end_src
+#+END_SRC
 
 ** Emacs initialization
 *** Add elisp directory
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (add-to-list 'load-path "~/.emacs.d/elisp")
 (require 'use-package)
-#+end_src
+#+END_SRC
 
 *** Add package sources
 
-#+begin_src emacs-lisp
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-#+end_src
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+  (unless (assoc-default "melpa" package-archives)
+    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+      )
+#+END_SRC
 
 *** Startup messages
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-message t
       initial-scratch-message ""
       inhibit-startup-echo-area-message t)
-#+end_src
+#+END_SRC
 
 ** General configuration
 *** Backups
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (setq delete-old-versions -1)
 (setq version-control t)
 (setq vc-make-backup-files t)
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
-#+end_src
+#+END_SRC
 
 *** History
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (setq savehist-file "~/.emacs.d/savehist")
   (savehist-mode 1)
   (setq history-length t)
@@ -58,54 +60,59 @@ Inspired by :
         '(kill-ring
           search-ring
           regexp-search-ring))
-#+end_src
+#+END_SRC
 *** Theme
 #+BEGIN_SRC emacs-lisp
 (load-theme 'leuven t)
 #+END_SRC
 *** Font
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist
 '(font . "DejaVu Sans Mono-14"))
-#+end_src
+#+END_SRC
 *** Window
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (when window-system
     (tooltip-mode -1)
     (tool-bar-mode -1)
     (scroll-bar-mode -1))
-#+end_src
+#+END_SRC
 *** Sentences end with a single space
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (setq sentence-end-double-space nil)
-#+end_src
+#+END_SRC
 
 *** Change "yes or no" to "y or n"
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (fset 'yes-or-no-p 'y-or-n-p)
-#+end_src
+#+END_SRC
 
 *** UTF-8
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (prefer-coding-system 'utf-8)
   (when (display-graphic-p)
     (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
-#+end_src
+#+END_SRC
 
 *** Recent files
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (require 'recentf)
   (setq recentf-max-saved-items 200
         recentf-max-menu-items 15)
   (recentf-mode)
-#+end_src
-
+#+END_SRC
+*** Firefox
+#+BEGIN_SRC emacs-lisp
+  (setq browse-url-browser-function 'browse-url-firefox
+        browse-url-new-window-flag  t
+        browse-url-firefox-new-window-is-tab t)
+#+END_SRC
 ** Packages
 *** Org
     
 Override default Org keybinding.
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package org
     :config
     (define-key org-mode-map (kbd "C-a") nil)
@@ -113,10 +120,10 @@ Override default Org keybinding.
     (define-key org-mode-map (kbd "M-a") nil)
     (define-key org-mode-map (kbd "M-e") nil)
     )
-#+end_src
+#+END_SRC
 
 *** Undo Tree
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :ensure undo-tree
     :init 
@@ -125,13 +132,72 @@ Override default Org keybinding.
       (setq undo-tree-mode-lighter "UT")
     )
   )
-#+end_src
+#+END_SRC
+
+*** Helm
+
+#+BEGIN_SRC emacs-lisp
+  (use-package helm
+    :ensure helm
+    :init
+    (progn 
+      (require 'helm-config) 
+      (helm-mode)))
+#+END_SRC
+
+*** Helm Swoop
+
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-swoop
+    :bind
+    (("C-s" . helm-swoop)
+     ("C-S-s" . helm-multi-swoop-all)
+     )
+    :config
+     (setq helm-swoop-pre-input-function
+        (lambda () ""))
+    )
+#+END_SRC
+
+** Email
+*** mu4e
+
+#+BEGIN_SRC emacs-lisp
+  (use-package mu4e
+    :load-path "~/.emacs.d/elisp/mu/mu4e"
+    :init
+    (setq mu4e-mu-binary "~/.emacs.d/elisp/mu/mu/mu"
+          mu4e-maildir "~/Mails"
+          mu4e-drafts-folder "/Drafts"
+          mu4e-sent-folder "/Sent"
+          mu4e-trash-folder "/Trash"
+					mu4e-refile-folder "/Archives"
+          mu4e-get-mail-command "offlineimap"
+          mu4e-update-interval 900
+          message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68\n\nCAPENSIS - Solutions Linux\nhttp://www.capensis.fr\n\nAgence Ouest\n67, Rue Ernest Sauvestre\n44000 REZÉ"
+          )
+    (use-package smtpmail
+      :init
+      (setq message-send-mail-function 'smtpmail-send-it
+            smtpmail-stream-type 'starttls
+            smtpmail-smtp-server "smtp.beastie.eu"
+            smtpmail-smtp-service 587
+            smtpmail-queue-mail nil
+            smtpmail-queue-dir "~/Mails/queue/cur"
+            ))
+    :config
+    (add-to-list 'mu4e-view-actions
+                 '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+    (add-hook 'mu4e-compose-mode-hook 'turn-on-orgstruct)
+    (add-hook 'mu4e-compose-mode-hook 'auto-fill-mode)
+    )
+#+END_SRC
 
 ** Key Bindings
 *** Basic operations
 I use a special keyboard layout intended for the French language: [[http://bepo.fr][Bépo]]. I am trying to have some ergonomic keybinds with basic operations in Emacs.
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (bind-keys ("M-a" . backward-char)
              ("M-i" . next-line)
              ("M-u" . previous-line)
@@ -178,17 +244,17 @@ I use a special keyboard layout intended for the French language: [[http://bepo.
   )
 (define-key minibuffer-local-map (kbd "C-p") 'next-complete-history-element)
 (define-key minibuffer-local-map (kbd "M-n") 'yank)
-#+end_src
+#+END_SRC
 ** Coding
 *** Tab width
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (setq-default tab-width 2)
-#+end_src
+#+END_SRC
 
 *** Column number
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (column-number-mode 1)
-#+end_src
+#+END_SRC
 
 
 
