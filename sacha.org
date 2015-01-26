@@ -94,6 +94,10 @@ Inspired by :
     (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 #+END_SRC
 
+*** Default application
+#+BEGIN_SRC emacs-lisp
+(setcdr (assq 'system org-file-apps-defaults-gnu ) "xdg-open %s")
+#+END_SRC
 *** Recent files
 #+BEGIN_SRC emacs-lisp
   (require 'recentf)
@@ -120,6 +124,14 @@ Override default Org keybinding.
     (define-key org-mode-map (kbd "M-a") nil)
     (define-key org-mode-map (kbd "M-e") nil)
     )
+#+END_SRC
+
+
+Enable org export to odt (OpenDocument Text). It is disabled by default in org 8.x.
+
+#+BEGIN_SRC emacs-lisp
+(eval-after-load "org"
+  '(require 'ox-odt nil t))
 #+END_SRC
 
 *** Undo Tree
@@ -157,6 +169,13 @@ Override default Org keybinding.
      (setq helm-swoop-pre-input-function
         (lambda () ""))
     )
+#+END_SRC
+
+*** Auctex
+
+#+BEGIN_SRC emacs-lisp
+  (use-package tex-site
+    :ensure auctex)
 #+END_SRC
 
 ** Email
@@ -257,4 +276,4 @@ I use a special keyboard layout intended for the French language: [[http://bepo.
 #+END_SRC
 
 
-
+** Org
