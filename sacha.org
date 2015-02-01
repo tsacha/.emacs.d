@@ -111,6 +111,16 @@ Inspired by :
         browse-url-new-window-flag  t
         browse-url-firefox-new-window-is-tab t)
 #+END_SRC
+*** Frequently-accessed files
+#+BEGIN_SRC emacs-lisp 
+  (mapcar
+   (lambda (r)
+     (set-register (car r) (cons 'file (cdr r))))
+   '((?s . "~/.emacs.d/sacha.org")
+     (?b . "~/Documents/Org mode/bidouille.org")
+     (?w . "~/Documents/Org mode/work.org")
+     (?p . "~/Documents/Org mode/perso.org")))
+#+END_SRC
 ** Packages
 *** Org
     
