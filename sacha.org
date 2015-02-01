@@ -194,7 +194,7 @@ Enable org export to odt (OpenDocument Text). It is disabled by default in org 8
           mu4e-get-mail-command "offlineimap"
           mu4e-update-interval 900
           message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68\n\nCAPENSIS - Solutions Linux\nhttp://www.capensis.fr\n\nAgence Ouest\n67, Rue Ernest Sauvestre\n44400 REZÉ"
-					mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68\n\nCAPENSIS - Solutions Linux\nhttp://www.capensis.fr\n\nAgence Ouest\n67, Rue Ernest Sauvestre\n44400 REZÉ"
+          mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68\n\nCAPENSIS - Solutions Linux\nhttp://www.capensis.fr\n\nAgence Ouest\n67, Rue Ernest Sauvestre\n44400 REZÉ"
           )
     (use-package smtpmail
       :init
