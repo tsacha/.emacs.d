@@ -34,9 +34,9 @@ Inspired by :
 
 *** Startup messages
 #+BEGIN_SRC emacs-lisp
-(setq inhibit-startup-message t
-      initial-scratch-message ""
-      inhibit-startup-echo-area-message t)
+  (setq inhibit-startup-message t
+        initial-scratch-message ""
+        inhibit-startup-echo-area-message t)
 #+END_SRC
 
 ** General configuration
@@ -128,6 +128,10 @@ Override default Org keybinding.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org
+    :init
+    (setq org-odt-data-dir "~/.emacs.d/elisp/org-mode/etc/")
+    (setq org-odt-styles-dir "~/.emacs.d/elisp/org-mode/etc/styles/")
+    (use-package ox-odt)
     :config
     (define-key org-mode-map (kbd "C-a") nil)
     (define-key org-mode-map (kbd "C-e") nil)
@@ -140,8 +144,8 @@ Override default Org keybinding.
 Enable org export to odt (OpenDocument Text). It is disabled by default in org 8.x.
 
 #+BEGIN_SRC emacs-lisp
-(eval-after-load "org"
-  '(require 'ox-odt nil t))
+  ;; (eval-after-load "org"
+  ;;   '(require 'ox-odt nil t))
 #+END_SRC
 
 *** Undo Tree
@@ -285,6 +289,3 @@ I use a special keyboard layout intended for the French language: [[http://bepo.
 #+BEGIN_SRC emacs-lisp
   (column-number-mode 1)
 #+END_SRC
-
-
-** Org
