@@ -131,6 +131,18 @@ Override default Org keybinding.
     :init
     (setq org-odt-data-dir "~/.emacs.d/elisp/org-mode/etc/")
     (setq org-odt-styles-dir "~/.emacs.d/elisp/org-mode/etc/styles/")
+    (use-package ox-latex-capensis
+      :config
+      (add-to-list 'org-latex-capensis-classes
+                   '("capensis"
+                     "\\documentclass{capensis}"
+                     ("\\section{%s}" . "\\section*{%s}")
+                     ("\\subsection{%s}" . "\\subsection*{%s}")
+                     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                     ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                     ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                   )
+      )
     (use-package ox-odt)
     :config
     (define-key org-mode-map (kbd "C-a") nil)
