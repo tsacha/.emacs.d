@@ -149,15 +149,11 @@ Override default Org keybinding.
     (define-key org-mode-map (kbd "C-e") nil)
     (define-key org-mode-map (kbd "M-a") nil)
     (define-key org-mode-map (kbd "M-e") nil)
-    )
-#+END_SRC
 
-
-Enable org export to odt (OpenDocument Text). It is disabled by default in org 8.x.
-
-#+BEGIN_SRC emacs-lisp
-  ;; (eval-after-load "org"
-  ;;   '(require 'ox-odt nil t))
+    (setq org-agenda-files (list "~/Documents/Org mode/perso.org"
+                                 "~/Documents/Org mode/bidouille.org" 
+                                 "~/Documents/Org mode/work.org"))
+    (setq org-agenda-todo-ignore-scheduled t))
 #+END_SRC
 
 *** Undo Tree
@@ -241,6 +237,7 @@ Enable org export to odt (OpenDocument Text). It is disabled by default in org 8
 
 ** Key Bindings
 *** Basic operations
+
 I use a special keyboard layout intended for the French language: [[http://bepo.fr][Bépo]]. I am trying to have some ergonomic keybinds with basic operations in Emacs.
 
 #+BEGIN_SRC emacs-lisp
@@ -285,11 +282,16 @@ I use a special keyboard layout intended for the French language: [[http://bepo.
              ("M-«" . split-window-below)
              ("M-»" . delete-other-windows)
              ("M-(" . delete-window)
-	     ("RET" . newline-and-indent)
-	     ("C-j" . newline-and-indent)
-  )
-(define-key minibuffer-local-map (kbd "C-p") 'next-complete-history-element)
-(define-key minibuffer-local-map (kbd "M-n") 'yank)
+             ("RET" . newline-and-indent)
+             ("C-j" . newline-and-indent))
+  (define-key minibuffer-local-map (kbd "C-p") 'next-complete-history-element)
+  (define-key minibuffer-local-map (kbd "M-n") 'yank)
+#+END_SRC
+*** Other keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (bind-keys ("C-x a" . org-agenda)
+             ("C-x j" . mu4e))
 #+END_SRC
 ** Coding
 *** Tab width
