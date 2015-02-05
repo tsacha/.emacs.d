@@ -117,9 +117,9 @@ Inspired by :
    (lambda (r)
      (set-register (car r) (cons 'file (cdr r))))
    '((?s . "~/.emacs.d/sacha.org")
-     (?b . "~/Documents/Org mode/bidouille.org")
-     (?w . "~/Documents/Org mode/work.org")
-     (?p . "~/Documents/Org mode/perso.org")))
+     (?t . "~/Git repositories/Org mode/tech.org")
+     (?w . "~/Git repositories/Org mode/work.org")
+     (?p . "~/Git repositories/Org mode/perso.org")))
 #+END_SRC
 ** Packages
 *** Org
@@ -135,7 +135,7 @@ Override default Org keybinding.
       :config
       (add-to-list 'org-latex-capensis-classes
                    '("capensis"
-                     "\\documentclass{capensis}"
+                     "\\documentclass{~/Templates/capensis}"
                      ("\\section{%s}" . "\\section*{%s}")
                      ("\\subsection{%s}" . "\\subsection*{%s}")
                      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -148,14 +148,30 @@ Override default Org keybinding.
     (define-key org-mode-map (kbd "C-a") nil)
     (define-key org-mode-map (kbd "C-e") nil)
     (define-key org-mode-map (kbd "M-a") nil)
-    (define-key org-mode-map (kbd "M-e") nil)
-
-    (setq org-agenda-files (list "~/Documents/Org mode/perso.org"
-                                 "~/Documents/Org mode/bidouille.org" 
-                                 "~/Documents/Org mode/work.org"))
-    (setq org-agenda-todo-ignore-scheduled t))
+    (define-key org-mode-map (kbd "M-e") nil))
 #+END_SRC
 
+**** Org agenda
+#+BEGIN_SRC emacs-lisp
+  (setq org-agenda-files (list "~/Git repositories/Org mode/perso.org"
+                               "~/Git repositories/Org mode/tech.org" 
+                               "~/Git repositories/Org mode/work.org"))
+  (setq org-agenda-todo-ignore-scheduled t)
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-agenda-start-on-weekday nil)
+
+  (defun org-archive-done-tasks ()
+    "Archive finished or cancelled tasks."
+    (interactive)
+    (org-map-entries
+     (lambda ()
+       (org-archive-subtree)
+       (setq org-map-continue-from (outline-previous-heading)))
+     "TODO=\"DONE\"|TODO=\"CANCELLED\"" (if (org-before-first-heading-p) 'file 'tree)))
+
+  (define-key org-mode-map (kbd "C-x à") 'org-archive-done-tasks)
+#+END_SRC
 *** Undo Tree
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
