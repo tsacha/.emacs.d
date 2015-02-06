@@ -192,7 +192,12 @@ Override default Org keybinding.
     :init
     (progn 
       (require 'helm-config) 
-      (helm-mode)))
+      (helm-mode))
+    :config
+    (define-key helm-map (kbd "M-u") 'helm-previous-line)
+    (define-key helm-map (kbd "M-i") 'helm-next-line)
+    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+    (define-key helm-map (kbd "C-j") 'helm-select-action))
 #+END_SRC
 
 *** Helm Swoop
@@ -201,8 +206,7 @@ Override default Org keybinding.
   (use-package helm-swoop
     :bind
     (("C-s" . helm-swoop)
-     ("C-S-s" . helm-multi-swoop-all)
-     )
+     ("C-S-s" . helm-multi-swoop-all))
     :config
      (setq helm-swoop-pre-input-function
         (lambda () ""))
