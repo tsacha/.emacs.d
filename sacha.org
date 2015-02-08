@@ -159,6 +159,10 @@ Override default Org keybinding.
                      ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
                    )
       )
+
+    (setq org-todo-keywords
+          '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+            (sequence "WAITING(w)" "HOLD(h)" "SOMEDAY(o)" "|" "CANCELLED(c)")))
     (use-package ox-odt)
     :config
     (define-key org-mode-map (kbd "C-a") nil)
@@ -182,6 +186,32 @@ Override default Org keybinding.
     (interactive)
     (org-map-entries
      (lambda ()
+  (use-package org
+    :init
+    (setq org-odt-data-dir "~/.emacs.d/elisp/org-mode/etc/")
+    (setq org-odt-styles-dir "~/.emacs.d/elisp/org-mode/etc/styles/")
+    (use-package ox-latex-capensis
+      :config
+      (add-to-list 'org-latex-capensis-classes
+                   '("capensis"
+                     "\\documentclass{~/Templates/capensis}"
+                     ("\\section{%s}" . "\\section*{%s}")
+                     ("\\subsection{%s}" . "\\subsection*{%s}")
+                     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                     ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                     ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                   )
+      )
+
+    (setq org-todo-keywords
+          '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
+            (sequence "WAITING(w@/!)" "HOLD(h@/!)" "SOMEDAY(o)" "|" "CANCELLED(c@/!)")))
+    (use-package ox-odt)
+    :config
+    (define-key org-mode-map (kbd "C-a") nil)
+    (define-key org-mode-map (kbd "C-e") nil)
+    (define-key org-mode-map (kbd "M-a") nil)
+    (define-key org-mode-map (kbd "M-e") nil))
        (org-archive-subtree)
        (setq org-map-continue-from (outline-previous-heading)))
      "TODO=\"DONE\"|TODO=\"CANCELLED\"" (if (org-before-first-heading-p) 'file 'tree)))
