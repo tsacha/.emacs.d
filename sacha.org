@@ -137,6 +137,11 @@ Inspired by :
 
   (add-to-list 'find-file-not-found-functions #'create-non-existent-directory)
 #+END_SRC
+*** Aspell
+#+BEGIN_SRC emacs-lisp
+(setq-default ispell-program-name "aspell")
+(setq ispell-dictionary "francais")
+#+END_SRC
 ** Packages
 *** Org
     
@@ -151,7 +156,7 @@ Override default Org keybinding.
       :config
       (add-to-list 'org-latex-capensis-classes
                    '("capensis"
-                     "\\documentclass{~/Templates/capensis}"
+                     "\\documentclass{/home/sacha/Templates/capensis}"
                      ("\\section{%s}" . "\\section*{%s}")
                      ("\\subsection{%s}" . "\\subsection*{%s}")
                      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -168,7 +173,8 @@ Override default Org keybinding.
     (define-key org-mode-map (kbd "C-a") nil)
     (define-key org-mode-map (kbd "C-e") nil)
     (define-key org-mode-map (kbd "M-a") nil)
-    (define-key org-mode-map (kbd "M-e") nil))
+    (define-key org-mode-map (kbd "M-e") nil)
+    :diminish org-mode)
 #+END_SRC
 
 **** Org agenda
@@ -243,7 +249,8 @@ Override default Org keybinding.
     (define-key helm-map (kbd "M-u") 'helm-previous-line)
     (define-key helm-map (kbd "M-i") 'helm-next-line)
     (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-    (define-key helm-map (kbd "C-j") 'helm-select-action))
+    (define-key helm-map (kbd "C-j") 'helm-select-action)
+		:diminish helm-mode)
 #+END_SRC
 
 *** Helm Swoop
@@ -264,6 +271,15 @@ Override default Org keybinding.
 #+BEGIN_SRC emacs-lisp
   (use-package tex-site
     :ensure auctex)
+#+END_SRC
+
+*** Yasnippet
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :config
+    (setq yas-snippet-dirs '("~/.emacs.d/elisp/snippets" yas-installed-snippets-dir))
+    (yas-global-mode 1))
 #+END_SRC
 
 ** Email
@@ -369,3 +385,4 @@ I use a special keyboard layout intended for the French language: [[http://bepo.
 #+BEGIN_SRC emacs-lisp
   (column-number-mode 1)
 #+END_SRC
+
