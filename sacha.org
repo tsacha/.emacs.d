@@ -63,7 +63,7 @@ Inspired by :
 #+END_SRC
 *** Theme
 #+BEGIN_SRC emacs-lisp
-(load-theme 'leuven t)
+(load-theme 'wombat t)
 #+END_SRC
 *** Font
 #+BEGIN_SRC emacs-lisp
