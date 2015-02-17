@@ -888,9 +888,9 @@ during latex export it will output
 ;;;; Compilation
 
 (defcustom org-latex-capensis-pdf-process
-  '("pdflatex -interaction nonstopmode -output-directory %o %f"
-    "pdflatex -interaction nonstopmode -output-directory %o %f"
-    "pdflatex -interaction nonstopmode -output-directory %o %f")
+  '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+    "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+    "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")
   "Commands to process a LaTeX file to a PDF file.
 This is a list of strings, each of them will be given to the
 shell as a command.  %f in the command will be replaced by the
