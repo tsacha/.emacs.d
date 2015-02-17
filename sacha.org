@@ -134,13 +134,16 @@ Inspired by :
       (when (and (not (file-exists-p parent-directory))
                  (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
         (make-directory parent-directory t))))
-
   (add-to-list 'find-file-not-found-functions #'create-non-existent-directory)
 #+END_SRC
 *** Aspell
 #+BEGIN_SRC emacs-lisp
 (setq-default ispell-program-name "aspell")
 (setq ispell-dictionary "francais")
+#+END_SRC
+*** Tramp
+#+BEGIN_SRC emacs-lisp
+  (setq tramp-default-method "ssh")
 #+END_SRC
 ** Packages
 *** Org
@@ -169,6 +172,8 @@ Override default Org keybinding.
           '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
             (sequence "WAITING(w)" "HOLD(h)" "SOMEDAY(o)" "|" "CANCELLED(c)")))
     (setq org-export-with-sub-superscripts nil)
+    (setq org-latex-listings 'minted)
+    (setq org-latex-capensis-listings 'minted)
     (use-package ox-odt)
     :config
     (define-key org-mode-map (kbd "C-a") nil)
@@ -236,8 +241,11 @@ Override default Org keybinding.
     (("C-s" . helm-swoop)
      ("C-S-s" . helm-multi-swoop-all))
     :config
-     (setq helm-swoop-pre-input-function
-        (lambda () ""))
+    (define-key helm-swoop-map (kbd "M-u") 'helm-previous-line)
+    (define-key helm-swoop-map (kbd "M-i") 'helm-next-line)
+    (define-key helm-swoop-map (kbd "M-e") 'helm-multi-swoop-all-from-helm-swoop)
+    (setq helm-swoop-pre-input-function
+          (lambda () ""))
     )
 #+END_SRC
 
@@ -245,7 +253,9 @@ Override default Org keybinding.
 
 #+BEGIN_SRC emacs-lisp
   (use-package tex-site
-    :ensure auctex)
+    :ensure auctex
+		:config
+		(setq LaTeX-command "latex -shell-escape -synctex=1"))
 #+END_SRC
 
 *** Yasnippet
