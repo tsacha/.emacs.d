@@ -174,6 +174,19 @@ Override default Org keybinding.
     (setq org-export-with-sub-superscripts nil)
     (setq org-latex-listings 'minted)
     (setq org-latex-capensis-listings 'minted)
+    (setq org-latex-minted-options
+          '(("frame" "lines")
+            ("breaklines" "")
+            ("breakindent" "0.4em")
+            ("fontsize" "\\scriptsize")
+            ("breakautoindent" "true")))
+
+    (setq org-latex-capensis-minted-options
+          '(("frame" "lines")
+            ("breaklines" "")
+            ("breakindent" "0.4em")
+            ("fontsize" "\\scriptsize")
+            ("breakautoindent" "true")))
     (use-package ox-odt)
     :config
     (define-key org-mode-map (kbd "C-a") nil)
