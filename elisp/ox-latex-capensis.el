@@ -147,6 +147,7 @@
 		(:logoclient "LOGOCLIENT" nil nil t)		
 		(:destinataire "DESTINATAIRE" nil nil t)
 		(:typedoc "TYPEDOC" nil nil t)
+		(:email "EMAIL" nil nil t)
 		(:version "VERSION" nil nil newline)))
 
 
@@ -1265,6 +1266,9 @@ holding export options."
      ;; Typedoc
 		 (let ((typedoc (plist-get info :typedoc)))
 			 (format "\\typedoc{%s}\n" typedoc))
+     ;; Email
+		 (let ((typedoc (plist-get info :email)))
+			 (format "\\email{%s}\n" typedoc))		 
      ;; Version
 		 (let* ((version (plist-get info :version))
 						(list (split-string version "\n"))

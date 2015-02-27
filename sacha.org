@@ -175,14 +175,16 @@ Override default Org keybinding.
     (setq org-latex-listings 'minted)
     (setq org-latex-capensis-listings 'minted)
     (setq org-latex-minted-options
-          '(("frame" "lines")
+          '(("frame" "single")
+            ("framerule" "0.2pt")         
             ("breaklines" "")
             ("breakindent" "0.4em")
             ("fontsize" "\\scriptsize")
             ("breakautoindent" "true")))
 
     (setq org-latex-capensis-minted-options
-          '(("frame" "lines")
+          '(("frame" "single")
+            ("framerule" "0.2pt")
             ("breaklines" "")
             ("breakindent" "0.4em")
             ("fontsize" "\\scriptsize")
