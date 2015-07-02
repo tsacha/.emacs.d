@@ -313,6 +313,30 @@ Override default Org keybinding.
     (yas-global-mode 1))
 #+END_SRC
 
+
+*** Dash
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dash
+     :ensure dash
+     :init
+  )
+#+END_SRC
+
+*** Magit
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :load-path "~/.emacs.d/elisp/magit/lisp/"
+    :init
+    :config
+  
+    (with-eval-after-load 'info
+      (info-initialize)
+      (add-to-list 'Info-directory-list
+                   "~/.emacs.d/elisp/magit/Documentation/")))
+#+END_SRC
+
 ** Email
 *** mu4e
 
