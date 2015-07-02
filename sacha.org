@@ -281,6 +281,7 @@ Override default Org keybinding.
 
 #+BEGIN_SRC emacs-lisp
   (use-package helm-swoop
+    :ensure helm-swoop
     :bind
     (("C-s" . helm-swoop)
      ("C-S-s" . helm-multi-swoop-all))
@@ -306,6 +307,7 @@ Override default Org keybinding.
 
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
+    :ensure yasnippet
     :config
     (setq yas-snippet-dirs '("~/.emacs.d/elisp/snippets" yas-installed-snippets-dir))
     (yas-global-mode 1))
