@@ -7,3 +7,6 @@
 [submodule "elisp/mu"]
 	path = elisp/mu
 	url = https://github.com/djcb/mu.git
+[submodule "elisp/magit"]
+	path = elisp/magit
+	url = git://github.com/magit/magit.git
