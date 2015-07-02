@@ -34,7 +34,9 @@ mkdir -p ~/Mails/queue/cur/
 touch ~/Mails/queue/.noindex
 ```
 
-At Emacs first launch :
+## Emacs initialisation
+
+Launch Emacs, then :
 
 ```
 M-x package-refresh-contents
@@ -43,6 +45,13 @@ M-x load-file
 ~/.emacs.d/init.el
 ```
 
+Close Emacs.
 
+## magit installation
 
+With Emacs first launch, Dash has been installed. We can now compile magit :
 
+```
+cd elisp/magit
+make
+```
