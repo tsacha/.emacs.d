@@ -38,7 +38,11 @@ At Emacs first launch :
 
 ```
 M-x package-refresh-contents
+
+M-x load-file
+~/.emacs.d/init.el
 ```
 
-Then, close Emacs and launch it again.
+
+
 
