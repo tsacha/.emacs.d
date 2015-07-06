@@ -27,7 +27,7 @@ make autoloads
 ## mu4e installation
 
 ```
-yum install gmime-devel xapian-core-devel autoconf html2text xdg-utils filesystem automake libtool gcc-c++ libuuid-devel zlib-devel makeinfo texinfo
+(as root) dnf install gmime-devel xapian-core-devel autoconf html2text xdg-utils filesystem automake libtool gcc-c++ libuuid-devel zlib-devel makeinfo 
 cd elisp/mu/
 autoreconf -i && ./configure && make
 mkdir -p ~/Mails/queue/cur/
