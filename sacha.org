@@ -72,10 +72,9 @@ Inspired by :
 #+END_SRC
 *** Window
 #+BEGIN_SRC emacs-lisp
-  (when window-system
-    (tooltip-mode -1)
-    (tool-bar-mode -1)
-    (scroll-bar-mode -1))
+(tooltip-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
 #+END_SRC
 *** Sentences end with a single space
 #+BEGIN_SRC emacs-lisp
@@ -400,7 +399,6 @@ I use a special keyboard layout intended for the French language: [[http://bepo.
              ("M-d" . undo-tree-redo)
              ("C-v" . undo-tree-switch-branch)
              ("M-g" . save-buffers-kill-terminal)
-             ("C-q" . find-file)
              ("M-q" . save-buffer)
              ("M-+" . set-mark-command)
              ("M--" . mark-whole-buffer)
