@@ -329,8 +329,10 @@ Override default Org keybinding.
   (use-package magit
     :load-path "~/.emacs.d/elisp/magit/lisp/"
     :init
+    :bind
+    (("C-x g" . magit-status))
     :config
-  
+
     (with-eval-after-load 'info
       (info-initialize)
       (add-to-list 'Info-directory-list
