@@ -268,12 +268,14 @@ Override default Org keybinding.
     (progn 
       (require 'helm-config) 
       (helm-mode))
+    :bind
+    (("M-=" . helm-do-grep))
     :config
     (define-key helm-map (kbd "M-u") 'helm-previous-line)
     (define-key helm-map (kbd "M-i") 'helm-next-line)
     (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
     (define-key helm-map (kbd "C-j") 'helm-select-action)
-		:diminish helm-mode)
+    :diminish helm-mode)
 #+END_SRC
 
 *** Helm Swoop
