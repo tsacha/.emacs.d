@@ -312,7 +312,6 @@ Override default Org keybinding.
     (yas-global-mode 1))
 #+END_SRC
 
-
 *** Dash
 
 #+BEGIN_SRC emacs-lisp
@@ -432,6 +431,9 @@ I use a special keyboard layout intended for the French language: [[http://bepo.
 *** Tab width
 #+BEGIN_SRC emacs-lisp
   (setq-default tab-width 2)
+  (setq-default indent-tabs-mode nil)
+  (defvaralias 'c-basic-offset 'tab-width)
+  (defvaralias 'css-indent-offset 'tab-width)
 #+END_SRC
 
 *** Column number
