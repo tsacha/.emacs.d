@@ -72,9 +72,9 @@ Inspired by :
 #+END_SRC
 *** Window
 #+BEGIN_SRC emacs-lisp
-(tooltip-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
+  (tooltip-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
 #+END_SRC
 *** Sentences end with a single space
 #+BEGIN_SRC emacs-lisp
@@ -198,6 +198,7 @@ Override default Org keybinding.
 
     (setq org-todo-keywords
           '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+            (sequence "TODO(b)" "TOSEND(s)" "|" "DONE(d)")
             (sequence "WAITING(w)" "HOLD(h)" "SOMEDAY(o)" "|" "CANCELLED(c)")))
     (setq org-export-with-sub-superscripts nil)
     (setq org-latex-listings 'minted)
@@ -274,6 +275,7 @@ Override default Org keybinding.
     (define-key helm-map (kbd "M-u") 'helm-previous-line)
     (define-key helm-map (kbd "M-i") 'helm-next-line)
     (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
     (define-key helm-map (kbd "C-j") 'helm-select-action)
     :diminish helm-mode)
 #+END_SRC
