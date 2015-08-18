@@ -61,14 +61,10 @@ Inspired by :
           search-ring
           regexp-search-ring))
 #+END_SRC
-*** Theme
-#+BEGIN_SRC emacs-lisp
-(load-theme 'wombat t)
-#+END_SRC
 *** Font
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist
-'(font . "DejaVu Sans Mono-14"))
+'(font . "-PARA-PT Sans-normal-normal-normal-*-24-*-*-*-*-0-iso10646-1"))
 #+END_SRC
 *** Window
 #+BEGIN_SRC emacs-lisp
@@ -174,6 +170,16 @@ Inspired by :
   (setq tramp-default-method "ssh")
 #+END_SRC
 ** Packages
+
+*** Diminish
+
+#+BEGIN_SRC emacs-lisp
+  (use-package diminish
+    :ensure diminish
+    :init
+    )
+
+#+END_SRC
 *** Org
     
 Override default Org keybinding.
@@ -223,8 +229,7 @@ Override default Org keybinding.
     (define-key org-mode-map (kbd "C-a") nil)
     (define-key org-mode-map (kbd "C-e") nil)
     (define-key org-mode-map (kbd "M-a") nil)
-    (define-key org-mode-map (kbd "M-e") nil)
-    :diminish org-mode)
+    (define-key org-mode-map (kbd "M-e") nil))
 #+END_SRC
 
 **** Org agenda
@@ -311,6 +316,7 @@ Override default Org keybinding.
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
     :ensure yasnippet
+    :diminish yas-minor-mode
     :config
     (setq yas-snippet-dirs '("~/.emacs.d/elisp/snippets" yas-installed-snippets-dir))
     (yas-global-mode 1))
@@ -339,6 +345,44 @@ Override default Org keybinding.
       (info-initialize)
       (add-to-list 'Info-directory-list
                    "~/.emacs.d/elisp/magit/Documentation/")))
+#+END_SRC
+
+
+*** Gnuplot
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnuplot-program "/usr/bin/gnuplot")
+  (use-package gnuplot-mode
+    :ensure gnuplot-mode
+    :init
+    )
+
+  (use-package gnuplot
+    :ensure gnuplot
+    :init
+    )
+#+END_SRC
+
+*** Theme
+#+BEGIN_SRC emacs-lisp
+(use-package material-theme
+  :ensure material-theme
+  :init
+  :config
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+                  (lambda (frame)
+                    (select-frame frame)
+                    (load-theme 'material t)))
+      (load-theme 'material t))  
+  (use-package powerline
+    :ensure powerline
+    :init
+    :config
+    (load-file "~/.emacs.d/theming.el")
+    (setq powerline-default-separator 'curve)
+    (setq powerline-height 20)
+    (powerline-spacemacs-imitation-theme)))
 #+END_SRC
 
 ** Email
