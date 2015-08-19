@@ -169,10 +169,10 @@ Inspired by :
 #+BEGIN_SRC emacs-lisp
   (setq tramp-default-method "ssh")
 #+END_SRC
+
 ** Packages
 
 *** Diminish
-
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
     :ensure diminish
@@ -348,7 +348,6 @@ Override default Org keybinding.
                    "~/.emacs.d/elisp/magit/Documentation/")))
 #+END_SRC
 
-
 *** Gnuplot
 
 #+BEGIN_SRC emacs-lisp
@@ -386,6 +385,29 @@ Override default Org keybinding.
     (powerline-spacemacs-imitation-theme)))
 #+END_SRC
 
+*** Elfeed
+#+BEGIN_SRC emacs-lisp
+  (use-package elfeed
+    :ensure elfeed
+    :bind
+    (("C-x ," . elfeed))
+    :config
+    (setq-default elfeed-search-filter "@1-day-ago")
+    (setf url-queue-timeout 30)
+    (setq elfeed-feeds
+          '(("https://s.tremoureux.fr/feed-technologies.xml" tech blog)
+          ("https://s.tremoureux.fr/feed-cinema.xml" cinema blog)
+          ("http://liberation.fr.feedsportal.com/c/32268/fe.ed/rss.liberation.fr/rss/58/" cinema)
+          ("http://linuxfr.org/news.atom" tech)
+          ("http://linuxfr.org/journaux.atom" tech)
+          ("http://www.numerama.com/rss/news.rss" tech)
+          ("https://lwn.net/headlines/rss" tech)
+          ("http://www.nextinpact.com/rss/news.xml" tech)
+          ("http://www.mediapart.fr/articles/feed" news)
+          ("http://www.arretsurimages.net/tous-les-contenus.rss" news)))
+    :init
+    )
+#+END_SRC
 ** Email
 *** mu4e
 
