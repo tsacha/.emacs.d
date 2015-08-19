@@ -170,6 +170,10 @@ Inspired by :
   (setq tramp-default-method "ssh")
 #+END_SRC
 
+*** Clock
+#+BEGIN_SRC emacs-lisp
+  (display-time-mode 1)
+#+END_SRC
 ** Packages
 
 *** Diminish
