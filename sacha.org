@@ -64,7 +64,7 @@ Inspired by :
 *** Font
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist
-'(font . "-PARA-PT Sans-normal-normal-normal-*-24-*-*-*-*-0-iso10646-1"))
+'(font . "-PARA-PT Sans-normal-normal-normal-*-28-*-*-*-*-0-iso10646-1"))
 #+END_SRC
 *** Window
 #+BEGIN_SRC emacs-lisp
