@@ -2,55 +2,55 @@
 #+OPTIONS: toc:4 h:4
 
 * Introduction
-Inspired by :
+  Inspired by :
 
-- [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chua's Emacs Configuration]]
-- [[https://github.com/mwfogleman/config/blob/master/home/.emacs.d/michael.org][Michael Fogleman’s Emacs configuration]]
+  - [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chua's Emacs Configuration]]
+  - [[https://github.com/mwfogleman/config/blob/master/home/.emacs.d/michael.org][Michael Fogleman’s Emacs configuration]]
 
 * Configuration
 ** Personal information
 
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Sacha Trémoureux"
         user-mail-address "sacha@tremoureux.fr")
-#+END_SRC
+   #+END_SRC
 
 ** Emacs initialization
 *** Add elisp directory
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
 (add-to-list 'load-path "~/.emacs.d/elisp")
 (require 'use-package)
-#+END_SRC
+    #+END_SRC
 
 *** Add package sources
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
   (unless (assoc-default "melpa" package-archives)
     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
       )
-#+END_SRC
+    #+END_SRC
 
 *** Startup messages
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t
         initial-scratch-message ""
         inhibit-startup-echo-area-message t)
-#+END_SRC
+    #+END_SRC
 
 ** General configuration
 *** Backups
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (setq delete-old-versions -1)
 (setq version-control t)
 (setq vc-make-backup-files t)
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
-#+END_SRC
+    #+END_SRC
 
 *** History
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq savehist-file "~/.emacs.d/savehist")
   (savehist-mode 1)
   (setq history-length t)
@@ -60,48 +60,48 @@ Inspired by :
         '(kill-ring
           search-ring
           regexp-search-ring))
-#+END_SRC
+    #+END_SRC
 *** Font
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist
 '(font . "-PARA-PT Sans-normal-normal-normal-*-28-*-*-*-*-0-iso10646-1"))
-#+END_SRC
+    #+END_SRC
 *** Window
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (tooltip-mode -1)
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
-#+END_SRC
+    #+END_SRC
 *** Sentences end with a single space
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq sentence-end-double-space nil)
-#+END_SRC
+    #+END_SRC
 
 *** Change "yes or no" to "y or n"
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
 (fset 'yes-or-no-p 'y-or-n-p)
-#+END_SRC
+    #+END_SRC
 
 *** UTF-8
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (prefer-coding-system 'utf-8)
   (when (display-graphic-p)
     (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
-#+END_SRC
+    #+END_SRC
 
 *** Default application
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
 (setcdr (assq 'system org-file-apps-defaults-gnu ) "xdg-open %s")
-#+END_SRC
+    #+END_SRC
 *** Recent files
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (require 'recentf)
   (setq recentf-max-saved-items 200
         recentf-max-menu-items 15)
   (recentf-mode)
-#+END_SRC
+    #+END_SRC
 *** Firefox
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defun browse-url-firefox-new (url &optional new-window)
     "Ask the Firefox WWW browser to load URL.
     Default to the URL around or before point.  The strings in
@@ -134,9 +134,9 @@ Inspired by :
   (setq browse-url-browser-function 'browse-url-firefox-new
         browse-url-new-window-flag  t
         browse-url-firefox-new-window-is-tab t)
-#+END_SRC
+    #+END_SRC
 *** Frequently-accessed files
-#+BEGIN_SRC emacs-lisp 
+    #+BEGIN_SRC emacs-lisp 
   (mapcar
    (lambda (r)
      (set-register (car r) (cons 'file (cdr r))))
@@ -144,10 +144,10 @@ Inspired by :
      (?t . "~/Git repositories/Org mode/tech.org")
      (?w . "~/Git repositories/Org mode/work.org")
      (?p . "~/Git repositories/Org mode/perso.org")))
-#+END_SRC
+    #+END_SRC
 *** Buffer / File Warnings
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq confirm-nonexistent-file-or-buffer nil)
 
   ;; via https://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/
@@ -159,36 +159,36 @@ Inspired by :
                  (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
         (make-directory parent-directory t))))
   (add-to-list 'find-file-not-found-functions #'create-non-existent-directory)
-#+END_SRC
+    #+END_SRC
 *** Aspell
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
 (setq-default ispell-program-name "aspell")
 (setq ispell-dictionary "francais")
-#+END_SRC
+    #+END_SRC
 *** Tramp
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq tramp-default-method "ssh")
-#+END_SRC
+    #+END_SRC
 
 *** Clock
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (display-time-mode 1)
-#+END_SRC
+    #+END_SRC
 ** Packages
 
 *** Diminish
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package diminish
     :ensure diminish
     :init
     )
 
-#+END_SRC
+    #+END_SRC
 *** Org
     
-Override default Org keybinding.
+    Override default Org keybinding.
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package org
     :init
     (setq org-odt-data-dir "~/.emacs.d/elisp/org-mode/etc/")
@@ -234,10 +234,10 @@ Override default Org keybinding.
     (define-key org-mode-map (kbd "C-e") nil)
     (define-key org-mode-map (kbd "M-a") nil)
     (define-key org-mode-map (kbd "M-e") nil))
-#+END_SRC
+    #+END_SRC
 
 **** Org agenda
-#+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp
   (setq org-agenda-files (list "~/Git repositories/Org mode/perso.org"
                                "~/Git repositories/Org mode/tech.org" 
                                "~/Git repositories/Org mode/work.org"))
@@ -256,9 +256,9 @@ Override default Org keybinding.
      "TODO=\"DONE\"|TODO=\"CANCELLED\"" (if (org-before-first-heading-p) 'file 'tree)))
 
   (define-key org-mode-map (kbd "C-x à") 'org-archive-done-tasks)
-#+END_SRC
+     #+END_SRC
 *** Undo Tree
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :ensure undo-tree
     :diminish undo-tree-mode
@@ -268,11 +268,11 @@ Override default Org keybinding.
       (setq undo-tree-mode-lighter "UT")
     )
   )
-#+END_SRC
+    #+END_SRC
 
 *** Helm
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package helm
     :ensure helm
     :init
@@ -288,11 +288,11 @@ Override default Org keybinding.
     (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
     (define-key helm-map (kbd "C-j") 'helm-select-action)
     :diminish helm-mode)
-#+END_SRC
+    #+END_SRC
 
 *** Helm Swoop
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package helm-swoop
     :ensure helm-swoop
     :bind
@@ -305,40 +305,40 @@ Override default Org keybinding.
     (setq helm-swoop-pre-input-function
           (lambda () ""))
     )
-#+END_SRC
+    #+END_SRC
 
 *** Auctex
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package tex-site
     :ensure auctex
 		:config
 		(setq LaTeX-command "latex -shell-escape -synctex=1"))
-#+END_SRC
+    #+END_SRC
 
 *** Yasnippet
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
     :ensure yasnippet
     :diminish yas-minor-mode
     :config
     (setq yas-snippet-dirs '("~/.emacs.d/elisp/snippets" yas-installed-snippets-dir))
     (yas-global-mode 1))
-#+END_SRC
+    #+END_SRC
 
 *** Dash
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package dash
      :ensure dash
      :init
   )
-#+END_SRC
+    #+END_SRC
 
 *** Magit
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package magit
     :load-path "~/.emacs.d/elisp/magit/lisp/"
     :init
@@ -350,11 +350,11 @@ Override default Org keybinding.
       (info-initialize)
       (add-to-list 'Info-directory-list
                    "~/.emacs.d/elisp/magit/Documentation/")))
-#+END_SRC
+    #+END_SRC
 
 *** Gnuplot
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq gnuplot-program "/usr/bin/gnuplot")
   (use-package gnuplot-mode
     :ensure gnuplot-mode
@@ -365,10 +365,10 @@ Override default Org keybinding.
     :ensure gnuplot
     :init
     )
-#+END_SRC
+    #+END_SRC
 
 *** Theme
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
 (use-package material-theme
   :ensure material-theme
   :init
@@ -387,12 +387,12 @@ Override default Org keybinding.
     (setq powerline-default-separator 'curve)
     (setq powerline-height 20)
     (powerline-spacemacs-imitation-theme)))
-#+END_SRC
+    #+END_SRC
 
 ** Email
 *** mu4e
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package mu4e
     :load-path "~/.emacs.d/elisp/mu/mu4e"
     :init
@@ -435,14 +435,14 @@ Override default Org keybinding.
     (add-hook 'mu4e-compose-mode-hook 'turn-on-orgstruct)
     (add-hook 'mu4e-compose-mode-hook 'auto-fill-mode)
     )
-#+END_SRC
+    #+END_SRC
 
 ** Key Bindings
 *** Basic operations
 
-I use a special keyboard layout intended for the French language: [[http://bepo.fr][Bépo]]. I am trying to have some ergonomic keybinds with basic operations in Emacs.
+    I use a special keyboard layout intended for the French language: [[http://bepo.fr][Bépo]]. I am trying to have some ergonomic keybinds with basic operations in Emacs.
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (bind-keys ("M-a" . backward-char)
              ("M-i" . next-line)
              ("M-u" . previous-line)
@@ -487,24 +487,24 @@ I use a special keyboard layout intended for the French language: [[http://bepo.
              ("C-j" . newline-and-indent))
   (define-key minibuffer-local-map (kbd "C-p") 'next-complete-history-element)
   (define-key minibuffer-local-map (kbd "M-n") 'yank)
-#+END_SRC
+    #+END_SRC
 *** Other keybinds
 
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (bind-keys ("C-x a" . org-agenda)
              ("C-x j" . mu4e))
-#+END_SRC
+    #+END_SRC
 ** Coding
 *** Tab width
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq-default tab-width 2)
   (setq-default indent-tabs-mode nil)
   (defvaralias 'c-basic-offset 'tab-width)
   (defvaralias 'css-indent-offset 'tab-width)
-#+END_SRC
+    #+END_SRC
 
 *** Column number
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (column-number-mode 1)
-#+END_SRC
+    #+END_SRC
 
