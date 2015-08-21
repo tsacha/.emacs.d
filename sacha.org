@@ -393,48 +393,50 @@
 *** mu4e
 
     #+BEGIN_SRC emacs-lisp
-  (use-package mu4e
-    :load-path "~/.emacs.d/elisp/mu/mu4e"
-    :init
-    (require 'mu4e-contrib)
-    (setq mu4e-html2text-command 'mu4e-shr2text)
+      (use-package mu4e
+        :load-path "~/.emacs.d/elisp/mu/mu4e"
+        :init
+        (require 'mu4e-contrib)
+        (setq mu4e-html2text-command 'mu4e-shr2text)
 
-    (setq mu4e-mu-binary "~/.emacs.d/elisp/mu/mu/mu"
-          mu4e-maildir "~/Mails"
-          mu4e-drafts-folder "/Drafts"
-          mu4e-sent-folder "/Sent"
-          mu4e-trash-folder "/Trash"
-          mu4e-refile-folder "/Archives"
-          mu4e-get-mail-command "offlineimap"
-          mu4e-update-interval 900
-          message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68\n\nCAPENSIS - Solutions Linux\nhttp://www.capensis.fr\n\nAgence Ouest\n67, Rue Ernest Sauvestre\n44400 REZÉ"
-          mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68\n\nCAPENSIS - Solutions Linux\nhttp://www.capensis.fr\n\nAgence Ouest\n67, Rue Ernest Sauvestre\n44400 REZÉ"
-          )
+        (setq mu4e-mu-binary "~/.emacs.d/elisp/mu/mu/mu"
+              mu4e-maildir "~/Mails"
+              mu4e-drafts-folder "/Drafts"
+              mu4e-sent-folder "/Sent"
+              mu4e-trash-folder "/Trash"
+              mu4e-refile-folder "/Archives"
+              mu4e-get-mail-command "offlineimap"
+              mu4e-update-interval 900
+              message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68\n\nCAPENSIS - Solutions Linux\nhttp://www.capensis.fr\n\nAgence Ouest\n67, Rue Ernest Sauvestre\n44400 REZÉ"
+              mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68\n\nCAPENSIS - Solutions Linux\nhttp://www.capensis.fr\n\nAgence Ouest\n67, Rue Ernest Sauvestre\n44400 REZÉ"
+              )
 
-    (setq mu4e-bookmarks
-          '( ("flag:unread AND NOT flag:trashed AND NOT maildir:\"/rss\"" "Unread messages"      ?u)
-             ("date:today..now  AND NOT maildir:\"/rss\""                  "Today's messages"     ?t)
-             ("date:7d..now  AND NOT maildir:\"/rss\""                     "Last 7 days"          ?w)
-             ("maildir:\"/INBOX\""                     "Inbox"          ?p)
-             ("maildir:\"/rss\""                     "Feeds"          ?d)
-             ("flag:unread  AND maildir:\"/rss\""                     "Unread feeds"          ?r)
-             ("date:1h..now  AND maildir:\"/rss\""                     "Last hour feeds"          ?l)
-             ("date:today..now  AND maildir:\"/rss\""                     "Today's feeds"          ?s)))
-    (use-package smtpmail
-      :init
-      (setq message-send-mail-function 'smtpmail-send-it
-            smtpmail-stream-type 'starttls
-            smtpmail-smtp-server "smtp.beastie.eu"
-            smtpmail-smtp-service 587
-            smtpmail-queue-mail nil
-            smtpmail-queue-dir "~/Mails/queue/cur"
-            ))
-    :config
-    (add-to-list 'mu4e-view-actions
-                 '("ViewInBrowser" . mu4e-action-view-in-browser) t)
-    (add-hook 'mu4e-compose-mode-hook 'turn-on-orgstruct)
-    (add-hook 'mu4e-compose-mode-hook 'auto-fill-mode)
-    )
+        (setq mu4e-bookmarks
+              '( ("flag:unread AND NOT flag:trashed AND NOT maildir:\"/rss\"" "Unread messages"      ?u)
+                 ("date:today..now  AND NOT maildir:\"/rss\""                  "Today's messages"     ?t)
+                 ("date:7d..now  AND NOT maildir:\"/rss\""                     "Last 7 days"          ?w)
+                 ("maildir:\"/INBOX\""                     "Inbox"          ?p)
+                 ("maildir:\"/rss\""                     "Feeds"          ?d)
+                 ("flag:unread  AND maildir:\"/rss\""                     "Unread feeds"          ?r)
+                 ("date:1h..now  AND maildir:\"/rss\""                     "Last hour feeds"          ?l)
+                 ("date:today..now  AND maildir:\"/rss\""                     "Today's feeds"          ?s)))
+        (use-package smtpmail
+          :init
+    
+          (setq auth-sources '("~/Documents/Security/mails/authinfo.gpg" "~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
+          (setq message-send-mail-function 'smtpmail-send-it
+                smtpmail-stream-type 'starttls
+                smtpmail-smtp-server "smtp.beastie.eu"
+                smtpmail-smtp-service 587
+                smtpmail-queue-mail nil
+                smtpmail-queue-dir "~/Mails/queue/cur"
+                ))
+        :config
+        (add-to-list 'mu4e-view-actions
+                     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+        (add-hook 'mu4e-compose-mode-hook 'turn-on-orgstruct)
+        (add-hook 'mu4e-compose-mode-hook 'auto-fill-mode)
+        )
     #+END_SRC
 
 ** Key Bindings
