@@ -2,10 +2,10 @@
 Description=Emacs: the extensible, self-documenting text editor
 
 [Service]
-Type=forking
 Environment="SSH_AUTH_SOCK=%h/.gnupg/S.gpg-agent.ssh"
+Type=forking
 ExecStart=/usr/bin/emacs --daemon
-ExecStop=/usr/bin/emacsclient --socket-name /tmp/emacs$(id -u)/server --eval "(progn (setq kill-emacs-hook 'nil) (kill-emacs))"
+ExecStop=/usr/bin/emacsclient --socket-name /tmp/emacs%U/server --eval "(progn (setq kill-emacs-hook 'nil) (kill-emacs))"
 Restart=always
 User=%i
 WorkingDirectory=%h
@@ -13,4 +13,3 @@ WorkingDirectory=%h
 [Install]
 WantedBy=default.target
 Wants=gpg-agent.service
-
