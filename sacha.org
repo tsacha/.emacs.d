@@ -175,7 +175,6 @@
   (display-time-mode 1)
     #+END_SRC
 ** Packages
-
 *** Diminish
     #+BEGIN_SRC emacs-lisp
   (use-package diminish
@@ -388,6 +387,14 @@
     (setq powerline-height 20)
     (powerline-spacemacs-imitation-theme)))
     #+END_SRC
+
+*** Markdown Mode
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :ensure markdown-mode
+    :init
+  )
+#+END_SRC
 
 ** Email
 *** mu4e
