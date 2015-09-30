@@ -368,24 +368,27 @@
 
 *** Theme
     #+BEGIN_SRC emacs-lisp
-(use-package material-theme
-  :ensure material-theme
-  :init
-  :config
-    (if (daemonp)
-        (add-hook 'after-make-frame-functions
-                  (lambda (frame)
-                    (select-frame frame)
-                    (load-theme 'material t)))
-      (load-theme 'material t))  
-  (use-package powerline
-    :ensure powerline
-    :init
-    :config
-    (load-file "~/.emacs.d/theming.el")
-    (setq powerline-default-separator 'curve)
-    (setq powerline-height 20)
-    (powerline-spacemacs-imitation-theme)))
+      (use-package material-theme
+        :ensure material-theme
+        :init
+        :config
+        (if (daemonp)
+            (add-hook 'after-make-frame-functions
+                      (lambda (frame)
+                        (select-frame frame)
+                        (load-theme 'material t)))
+          (load-theme 'material t))
+        (use-package anzu
+          :ensure anzu
+          :config
+          (use-package powerline
+            :ensure powerline
+            :init
+            :config
+            (load-file "~/.emacs.d/theming.el")
+            (setq powerline-default-separator 'curve)
+            (setq powerline-height 20)
+            (powerline-spacemacs-imitation-theme))))
     #+END_SRC
 
 *** Markdown Mode
