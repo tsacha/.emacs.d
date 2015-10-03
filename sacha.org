@@ -64,7 +64,7 @@
 *** Font
     #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist
-'(font . "-PARA-PT Sans-normal-normal-normal-*-28-*-*-*-*-0-iso10646-1"))
+'(font . "Droid Sans Mono-18"))
     #+END_SRC
 *** Window
     #+BEGIN_SRC emacs-lisp
@@ -432,7 +432,7 @@
                  ("date:today..now  AND maildir:\"/rss\""                     "Today's feeds"          ?s)))
         (use-package smtpmail
           :init
-    
+
           (setq auth-sources '("~/Documents/Security/mails/authinfo.gpg" "~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
           (setq message-send-mail-function 'smtpmail-send-it
                 smtpmail-stream-type 'starttls
@@ -509,10 +509,10 @@
 ** Coding
 *** Tab width
     #+BEGIN_SRC emacs-lisp
-  (setq-default tab-width 2)
-  (setq-default indent-tabs-mode nil)
-  (defvaralias 'c-basic-offset 'tab-width)
-  (defvaralias 'css-indent-offset 'tab-width)
+      (setq-default tab-width 2)
+      (setq-default indent-tabs-mode nil)
+      (defvaralias 'c-basic-offset 'tab-width)
+      (defvaralias 'css-indent-offset 'tab-width)
     #+END_SRC
 
 *** Column number

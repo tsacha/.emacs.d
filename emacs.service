@@ -6,6 +6,7 @@ Environment="SSH_AUTH_SOCK=%h/.gnupg/S.gpg-agent.ssh"
 Type=forking
 ExecStart=/usr/bin/emacs --daemon
 ExecStop=/usr/bin/emacsclient --socket-name /tmp/emacs%U/server --eval "(progn (setq kill-emacs-hook 'nil) (kill-emacs))"
+ExecStop=/bin/rm /tmp/emacs%U/server
 Restart=always
 User=%i
 WorkingDirectory=%h
