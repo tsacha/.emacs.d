@@ -509,10 +509,16 @@
 ** Coding
 *** Tab width
     #+BEGIN_SRC emacs-lisp
-      (setq-default tab-width 2)
+      (setq tab-width 2)
       (setq-default indent-tabs-mode nil)
       (defvaralias 'c-basic-offset 'tab-width)
       (defvaralias 'css-indent-offset 'tab-width)
+      (defvaralias 'cperl-indent-level 'tab-width)
+      (defvaralias 'perl-indent-level 'tab-width)
+      (defvaralias 'js-indent-level 'tab-width)
+      (setq-default sh-indentation tab-width)
+      (setq-default sh-basic-offset tab-width)
+      (setq-default python-indent-offset tab-width)
     #+END_SRC
 
 *** Column number
