@@ -278,7 +278,7 @@
 #+END_SRC
 
 ** Key-chords
-#+BEGIN_SRC emacs-lisp :tangle yes"
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package key-chord
     :init
     (progn
