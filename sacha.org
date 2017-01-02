@@ -168,7 +168,8 @@
             helm-quick-update t
             helm-M-x-requires-pattern nil
             helm-ff-skip-boring-files t)
-      (helm-mode))
+      (helm-mode)
+      (helm-autoresize-mode))
     :config
     (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
     (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
@@ -179,11 +180,10 @@
            ("C-x C-b" . helm-buffers-list)
            ("M-y" . helm-show-kill-ring)
            ("M-x" . helm-M-x)
-	   ("M-=" . helm-do-grep)	 
+	   ("M-=" . helm-do-grep-ag)
            ("C-x c o" . helm-occur)
            ("C-x c y" . helm-yas-complete)
            ("C-x c Y" . helm-yas-create-snippet-on-region)
-           ("C-x c b" . my/helm-do-grep-book-notes)
            ("C-x c SPC" . helm-all-mark-rings)))
 #+END_SRC
 
@@ -200,6 +200,15 @@
     (setq helm-swoop-pre-input-function
           (lambda () ""))
     )
+#+END_SRC
+
+*** Helm AG
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package helm-ag
+    :ensure t
+    :bind
+    (("C-M-=" . helm-ag)))
 #+END_SRC
 
 ** Registers
@@ -225,7 +234,7 @@
 ** Windows
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (when (display-graphic-p)
+  (when (eq window-system nil)
       (progn
 	(tool-bar-mode -1)
 	(tooltip-mode -1)
@@ -246,7 +255,7 @@
   (set-terminal-coding-system 'utf-8)
   (set-keyboard-coding-system 'utf-8)
   (set-language-environment 'utf-8)
-  (when (display-graphic-p)
+  (when (eq window-system nil)
     (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 #+END_SRC
 
@@ -263,9 +272,7 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package moe-theme
     :init
-    (require 'moe-theme-switcher)
-    )
-
+    (require 'moe-theme-switcher))
 #+END_SRC
 
 ** Columns
@@ -277,6 +284,10 @@
   (setq default-frame-alist '((font . "Source Code Pro 14")))
 #+END_SRC
 
+** Keybinds
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (bind-keys ("C-x b" . ibuffer))
+#+END_SRC
 ** Key-chords
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package key-chord
@@ -312,7 +323,7 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package editorconfig
     :ensure t
-    :diminish EditorConfig
+    :diminish editorconfig-mode
     :config
     (editorconfig-mode 1))
 #+END_SRC
@@ -359,7 +370,7 @@
 	      mu4e-trash-folder "/Trash"
 	      mu4e-refile-folder "/Archives"
 	      mu4e-get-mail-command "mbsync -a"
-	      mu4e-update-interval 900
+	      mu4e-update-interval 60
 	      message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
 	      mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
 	      )
@@ -388,6 +399,22 @@
 	(("C-x a j" . mu4e))))
 #+END_SRC
 
+*** mu4e alert
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (if (file-accessible-directory-p "~/.emacs.d/elisp/mu")
+      (use-package mu4e-alert
+	:ensure t
+	:init
+	(mu4e-alert-set-default-style 'libnotify)
+	(mu4e-alert-enable-notifications)
+	(mu4e-alert-enable-mode-line-display)
+	(setq mu4e-alert-interesting-mail-query
+	      (concat
+	       "flag:unread"
+	       " AND NOT flag:trashed"))
+	))
+#+END_SRC
 ** Quick jump
 
 #+BEGIN_SRC emacs-lisp :tangle yes
