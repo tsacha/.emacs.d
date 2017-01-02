@@ -225,7 +225,7 @@
 ** Windows
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (if (display-graphic-p)
+  (when (display-graphic-p)
       (progn
 	(tool-bar-mode -1)
 	(tooltip-mode -1)
@@ -433,14 +433,12 @@
 
 ** highlight-indent
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (if (display-graphic-p)
-      (progn
-	(use-package highlight-indent-guides
-	  :init
-	  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-	  :config
-	  (setq highlight-indent-guides-method 'character)
-	  (set-face-foreground 'highlight-indent-guides-character-face "lightgray"))))
+  (use-package highlight-indent-guides
+    :init
+    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+    :config
+    (setq highlight-indent-guides-method 'character)
+    (set-face-foreground 'highlight-indent-guides-character-face "lightgray"))
 #+END_SRC
 ** Python
 
