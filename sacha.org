@@ -261,11 +261,11 @@
 ** Themes
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (if (display-graphic-p)
-      (progn
-	(use-package moe-theme
-	  :init
-	  (require 'moe-theme-switcher))))
+  (use-package moe-theme
+    :init
+    (require 'moe-theme-switcher)
+    )
+
 #+END_SRC
 
 ** Columns
