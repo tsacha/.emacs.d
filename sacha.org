@@ -234,16 +234,17 @@
 ** Windows
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (when (eq window-system nil)
-    (progn
-      (tool-bar-mode -1)
-      (tooltip-mode -1)
-      (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))))
-  (when (display-graphic-p)
-    (progn
-      (tool-bar-mode -1)
-      (tooltip-mode -1)
-      (scroll-bar-mode -1)))
+  (defun contextual-menubar (&optional frame)
+    "Display the menubar in FRAME (default: selected frame) if on a
+      graphical display, but hide it if in terminal."
+    (interactive)
+    (set-frame-parameter frame 'menu-bar-lines
+			 (if (display-graphic-p frame) 1 0)))
+  (tool-bar-mode -1)
+  (tooltip-mode -1)
+  (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+  (add-hook 'after-make-frame-functions 'contextual-menubar)
+  (add-hook 'after-init-hook 'contextual-menubar)
 #+END_SRC
 
 ** Clock
@@ -463,15 +464,6 @@
      "TODO=\"DONE\"|TODO=\"CANCELLED\"" (if (org-before-first-heading-p) 'file 'tree)))
 #+END_SRC
 
-** highlight-indent
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package highlight-indent-guides
-    :init
-    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-    :config
-    (setq highlight-indent-guides-method 'character)
-    (set-face-foreground 'highlight-indent-guides-character-face "lightgray"))
-#+END_SRC
 ** Python
 
 #+BEGIN_SRC emacs-lisp :tangle yes
