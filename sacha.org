@@ -278,6 +278,13 @@
   (setq default-frame-alist '((font . "Source Code Pro 14")))
 #+END_SRC
 
+
+** Generic keybindings
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (bind-keys ("C-x b" . ibuffer-list-buffers))
+#+END_SRC
+
 ** Key-chords
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package key-chord
