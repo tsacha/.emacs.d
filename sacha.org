@@ -278,7 +278,6 @@
   (setq default-frame-alist '((font . "Source Code Pro 14")))
 #+END_SRC
 
-
 ** Generic keybindings
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -286,7 +285,7 @@
 #+END_SRC
 
 ** Key-chords
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle yes"
   (use-package key-chord
     :init
     (progn
@@ -441,13 +440,14 @@
 
 ** highlight-indent
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package highlight-indent-guides
-    :init
-    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-    :config
-    (setq highlight-indent-guides-method 'character)
-    (set-face-foreground 'highlight-indent-guides-character-face "lightgray")
-    )
+  (if (display-graphic-p)
+      (progn
+	(use-package highlight-indent-guides
+	  :init
+	  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+	  :config
+	  (setq highlight-indent-guides-method 'character)
+	  (set-face-foreground 'highlight-indent-guides-character-face "lightgray"))))
 #+END_SRC
 ** Python
 
