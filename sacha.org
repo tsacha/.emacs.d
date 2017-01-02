@@ -470,6 +470,13 @@
      (setq tab-width 2)
      (setq indent-tabs-mode nil)
    #+END_SRC
+
+** Cleanup
+
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (add-hook 'before-save-hook 'whitespace-cleanup)
+   #+END_SRC
+
 ** Python
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package python
