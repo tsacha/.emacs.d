@@ -1,5 +1,7 @@
+init.el
 sacha.el
 elpa/
+elisp/
 url/
 auto-save-list/
 *~

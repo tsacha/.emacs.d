@@ -95,7 +95,6 @@
   (setq sentence-end-double-space nil)
 #+END_SRC
 
-
 ** Buffer / File Warnings
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -327,12 +326,12 @@
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package magit
+    :ensure f
     :load-path "~/.emacs.d/elisp/magit/lisp/"
     :init
     :bind
     (("C-x g" . magit-status))
     :config
-
     (with-eval-after-load 'info
       (info-initialize)
       (add-to-list 'Info-directory-list
