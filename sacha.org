@@ -177,7 +177,6 @@
            ("C-h a" . helm-apropos)
            ("C-x C-f" . helm-find-files)
            ("C-x C-b" . helm-buffers-list)
-           ("C-x b" . helm-buffers-list)
            ("M-y" . helm-show-kill-ring)
            ("M-x" . helm-M-x)
 	   ("M-=" . helm-do-grep)	 
@@ -276,12 +275,6 @@
 ** Fonts
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq default-frame-alist '((font . "Source Code Pro 14")))
-#+END_SRC
-
-** Generic keybindings
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (bind-keys ("C-x b" . ibuffer-list-buffers))
 #+END_SRC
 
 ** Key-chords
