@@ -289,7 +289,11 @@
       (key-chord-define-global "$$"     'avy-goto-line)
       (key-chord-define-global "FF"     'helm-find-files)))
 #+END_SRC
-
+** Switch window
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package switch-window
+    :bind (("C-x o" . switch-window)))
+#+END_SRC
 ** Smartparens
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package smartparens
@@ -326,8 +330,7 @@
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package magit
-    :ensure f
-    :load-path "~/.emacs.d/elisp/magit/lisp/"
+    :ensure t
     :init
     :bind
     (("C-x g" . magit-status))
