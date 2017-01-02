@@ -1,4 +1,4 @@
-#+TITLE Sacha Trémoureux's Emacs Configuration
+#+TITLE: Sacha Trémoureux's Emacs Configuration
 #+OPTIONS: toc:2 h:2
 
 ** Initialization
@@ -75,10 +75,11 @@
 ** Backups
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq delete-old-versions -1)
-(setq version-control t)
-(setq vc-make-backup-files t)
-(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+  (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+  (setq delete-old-versions -1)
+  (setq version-control t)
+  (setq vc-make-backup-files t)
+  (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 #+END_SRC
 
 ** Recent files
@@ -344,48 +345,48 @@
 ** mu4e
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package mu4e
-    :ensure f
-    :load-path "~/.emacs.d/elisp/mu/mu4e"
-    :init
-    (require 'mu4e-contrib)
-    (setq mu4e-html2text-command 'mu4e-shr2text)
+  (if (file-accessible-directory-p "~/.emacs.d/elisp/mu")
+      (use-package mu4e
+	:ensure f
+	:load-path "~/.emacs.d/elisp/mu/mu4e"
+	:init
+	(require 'mu4e-contrib)
+	(setq mu4e-html2text-command 'mu4e-shr2text)
 
-    (setq mu4e-mu-binary "~/.emacs.d/elisp/mu/mu/mu"
-          mu4e-maildir "~/Mails"
-          mu4e-drafts-folder "/Drafts"
-          mu4e-sent-folder "/Sent"
-          mu4e-trash-folder "/Trash"
-          mu4e-refile-folder "/Archives"
-          mu4e-get-mail-command "mbsync -a"
-          mu4e-update-interval 900
-          message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
-          mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
-          )
+	(setq mu4e-mu-binary "~/.emacs.d/elisp/mu/mu/mu"
+	      mu4e-maildir "~/Mails"
+	      mu4e-drafts-folder "/Drafts"
+	      mu4e-sent-folder "/Sent"
+	      mu4e-trash-folder "/Trash"
+	      mu4e-refile-folder "/Archives"
+	      mu4e-get-mail-command "mbsync -a"
+	      mu4e-update-interval 900
+	      message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
+	      mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
+	      )
 
-    (setq mu4e-change-filenames-when-moving t)
+	(setq mu4e-change-filenames-when-moving t)
 
-    (setq mu4e-bookmarks
-          '( ("flag:unread AND NOT flag:trashed" "Unread messages"      ?u)
-             ("date:today..now"                  "Today's messages"     ?t)
-             ("date:7d..now"                     "Last 7 days"          ?w)
-             ("maildir:\"/INBOX\""                     "Inbox"          ?p)))
-    (setq auth-sources '("~/Documents/Security/mails/auth.gpg"))
-    (setq message-send-mail-function 'smtpmail-send-it
-	  smtpmail-stream-type 'starttls
-	  smtpmail-smtp-server "mx.mkfs.fr"
-	  smtpmail-smtp-service 587
-	  smtpmail-queue-mail nil
-	  smtpmail-queue-dir "~/Mails/queue/cur"
-	  )
-  :config
-  (add-to-list 'mu4e-view-actions
-	       '("ViewInBrowser" . mu4e-action-view-in-browser) t)
-  (add-hook 'mu4e-compose-mode-hook 'turn-on-orgstruct)
-  (add-hook 'mu4e-compose-mode-hook 'auto-fill-mode)
-  :bind
-  (("C-x a j" . mu4e))
-  )
+	(setq mu4e-bookmarks
+	      '( ("flag:unread AND NOT flag:trashed" "Unread messages"      ?u)
+		 ("date:today..now"                  "Today's messages"     ?t)
+		 ("date:7d..now"                     "Last 7 days"          ?w)
+		 ("maildir:\"/INBOX\""                     "Inbox"          ?p)))
+	(setq auth-sources '("~/Documents/Security/mails/auth.gpg"))
+	(setq message-send-mail-function 'smtpmail-send-it
+	      smtpmail-stream-type 'starttls
+	      smtpmail-smtp-server "mx.mkfs.fr"
+	      smtpmail-smtp-service 587
+	      smtpmail-queue-mail nil
+	      smtpmail-queue-dir "~/Mails/queue/cur"
+	      )
+	:config
+	(add-to-list 'mu4e-view-actions
+		     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+	(add-hook 'mu4e-compose-mode-hook 'turn-on-orgstruct)
+	(add-hook 'mu4e-compose-mode-hook 'auto-fill-mode)
+	:bind
+	(("C-x a j" . mu4e))))
 #+END_SRC
 
 ** Quick jump
