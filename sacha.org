@@ -464,6 +464,11 @@
      "TODO=\"DONE\"|TODO=\"CANCELLED\"" (if (org-before-first-heading-p) 'file 'tree)))
 #+END_SRC
 
+** Indentation
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq tab-width 2)
+  (setq indent-tabs-mode nil)
+#+END_SRC
 ** Python
 
 #+BEGIN_SRC emacs-lisp :tangle yes
