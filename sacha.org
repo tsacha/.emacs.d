@@ -200,7 +200,7 @@
 	graphical display, but hide it if in terminal."
        (interactive)
        (set-frame-parameter frame 'scroll-bar-mode
-			 (scroll-bar-mode -1))
+			 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)))
        (set-frame-parameter frame 'menu-bar-lines
 			 (if (display-graphic-p frame) 1 0)))
      (tool-bar-mode -1)
