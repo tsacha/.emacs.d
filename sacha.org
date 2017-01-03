@@ -1,8 +1,6 @@
 #+TITLE: Sacha Trémoureux's Emacs Configuration
 #+OPTIONS: toc:2 h:2
-
 ** Initialization
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (package-initialize)
      (add-to-list 'load-path "~/.emacs.d/elisp/use-package")
@@ -10,28 +8,22 @@
      (add-to-list 'load-path "~/.emacs.d/elisp/org-mode/contrib/lisp")
      (setq package-enable-at-startup nil)
    #+END_SRC
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (unless (assoc-default "melpa" package-archives)
        (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
        )
    #+END_SRC
-
 ** Startup messages
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq inhibit-startup-message t
-   	initial-scratch-message ""
-   	inhibit-startup-echo-area-message t)
+	initial-scratch-message ""
+	inhibit-startup-echo-area-message t)
    #+END_SRC
-
 ** Personal informations
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq user-full-name "Sacha Trémoureux"
-   	user-mail-address "sacha@tremoureux.fr")
+	user-mail-address "sacha@tremoureux.fr")
    #+END_SRC
-
 ** Latitude / Longitude
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq calendar-latitude +47.23)
@@ -39,7 +31,6 @@
      (setq calendar-location-name "Nantes, France")
    #+END_SRC
 ** Packages
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (add-to-list 'load-path "~/.emacs.d/elisp")
      (eval-when-compile
@@ -51,15 +42,11 @@
        :config (auto-compile-on-load-mode))
      (setq load-prefer-newer t)
    #+END_SRC
-
 ** Libraries
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package dash)
    #+END_SRC
-
 ** History
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq savehist-file "~/.emacs.d/savehist")
      (savehist-mode 1)
@@ -67,13 +54,11 @@
      (setq history-delete-duplicates t)
      (setq savehist-save-minibuffer-history 1)
      (setq savehist-additional-variables
-   	'(kill-ring
-             search-ring
-             regexp-search-ring))
+	'(kill-ring
+	  search-ring
+	  regexp-search-ring))
    #+END_SRC
-
 ** Backups
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
      (setq delete-old-versions -1)
@@ -81,52 +66,39 @@
      (setq vc-make-backup-files t)
      (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
    #+END_SRC
-
 ** Recent files
    #+BEGIN_SRC emacs-lisp :tangle yes
      (require 'recentf)
      (setq recentf-mnnnax-saved-items 200
-   	recentf-max-menu-items 15)
+	recentf-max-menu-items 15)
      (recentf-mode)
    #+END_SRC
-
 ** Sentences end with a single space
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq sentence-end-double-space nil)
    #+END_SRC
-
 ** Buffer / File Warnings
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq confirm-nonexistent-file-or-buffer nil)
-
      ;; via https://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/
-
      (defun create-non-existent-directory ()
        "Check whether a given file's parent directories exist; if they do not, offer to create them."
        (let ((parent-directory (file-name-directory buffer-file-name)))
-         (when (and (not (file-exists-p parent-directory))
-   		 (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
-   	(make-directory parent-directory t))))
+	 (when (and (not (file-exists-p parent-directory))
+		 (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
+	(make-directory parent-directory t))))
      (add-to-list 'find-file-not-found-functions #'create-non-existent-directory)
    #+END_SRC
-
 ** Aspell
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq-default ispell-program-name "aspell")
      (setq ispell-dictionary "francais")
    #+END_SRC
-
 ** Tramp
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq tramp-default-method "ssh")
    #+END_SRC
-
 ** Window management
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package switch-window
        :bind (("C-x o" . switch-window)))
@@ -137,124 +109,112 @@
        :ensure t
        )
    #+END_SRC
-
 ** Undo-tree
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package undo-tree
        :diminish undo-tree-mode
        :bind
        (("M-+" . undo-tree-undo)
-        ("M--" . undo-tree-redo))
+	("M--" . undo-tree-redo))
        :config
        (progn
-         (global-undo-tree-mode)
-         (setq undo-tree-visualizer-timestamps t)
-         (setq undo-tree-visualizer-diff t)))
+	 (global-undo-tree-mode)
+	 (setq undo-tree-visualizer-timestamps t)
+	 (setq undo-tree-visualizer-diff t)))
    #+END_SRC
 ** Helm Mode
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package helm
        :diminish helm-mode
        :init
        (progn
-         (require 'helm-config)
-         (setq helm-candidate-number-limit 100)
-         ;; From https://gist.github.com/antifuchs/9238468
-         (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
-               helm-input-idle-delay 0.01  ; this actually updates things
-                                             ; reeeelatively quickly.
-               helm-yas-display-key-on-candidate t
-               helm-quick-update t
-               helm-M-x-requires-pattern nil
-               helm-ff-skip-boring-files t)
-         (helm-mode)
-         (helm-autoresize-mode))
+	 (require 'helm-config)
+	 (setq helm-candidate-number-limit 100)
+	 ;; From https://gist.github.com/antifuchs/9238468
+	 (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
+	    helm-input-idle-delay 0.01  ; this actually updates things
+					  ; reeeelatively quickly.
+	    helm-yas-display-key-on-candidate t
+	    helm-quick-update t
+	    helm-M-x-requires-pattern nil
+	    helm-ff-skip-boring-files t)
+	 (helm-mode)
+	 (helm-autoresize-mode))
        :config
        (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
        (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
        (define-key helm-map (kbd "C-j") 'helm-select-action)
        :bind (("C-c h" . helm-mini)
-              ("C-h a" . helm-apropos)
-              ("C-x C-f" . helm-find-files)
-              ("C-x C-b" . helm-buffers-list)
-              ("M-y" . helm-show-kill-ring)
-              ("M-x" . helm-M-x)
-   	   ("M-=" . helm-do-grep-ag)
-              ("C-x c o" . helm-occur)
-              ("C-x c y" . helm-yas-complete)
-              ("C-x c Y" . helm-yas-create-snippet-on-region)
-              ("C-x c SPC" . helm-all-mark-rings)))
+	   ("C-h a" . helm-apropos)
+	   ("C-x C-f" . helm-find-files)
+	   ("C-x C-b" . helm-buffers-list)
+	   ("M-y" . helm-show-kill-ring)
+	   ("M-x" . helm-M-x)
+	   ("M-=" . helm-do-grep-ag)
+	   ("C-x c o" . helm-occur)
+	   ("C-x c y" . helm-yas-complete)
+	   ("C-x c Y" . helm-yas-create-snippet-on-region)
+	   ("C-x c SPC" . helm-all-mark-rings)))
    #+END_SRC
-
 *** Helm Swoop
-
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package helm-swoop
-        :ensure t
-        :bind
-        (("C-s" . helm-swoop)
-         ("C-S-s" . helm-multi-swoop-all))
-        :config
-        (setq helm-swoop-speed-or-color t)
-        (setq helm-swoop-pre-input-function
-              (lambda () ""))
-        )
+	:ensure t
+	:bind
+	(("C-s" . helm-swoop)
+	 ("C-S-s" . helm-multi-swoop-all))
+	:config
+	(setq helm-swoop-speed-or-color t)
+	(setq helm-swoop-pre-input-function
+	  (lambda () ""))
+	)
     #+END_SRC
-
 *** Helm AG
-
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package helm-ag
-        :ensure t
-        :bind
-        (("C-M-=" . helm-ag)))
+	:ensure t
+	:bind
+	(("C-M-=" . helm-ag)))
     #+END_SRC
-
 ** Registers
    #+BEGIN_SRC emacs-lisp :tangle yes
      (mapcar
       (lambda (r)
-        (set-register (car r) (cons 'file (cdr r))))
+	(set-register (car r) (cons 'file (cdr r))))
       '((?s . "~/.emacs.d/sacha.org")))
    #+END_SRC
-
 ** Startup Messages
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq inhibit-startup-message t
-   	initial-scratch-message ""
-   	inhibit-startup-echo-area-message t)
+	initial-scratch-message ""
+	inhibit-startup-echo-area-message t)
    #+END_SRC
 ** yes/no questions
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (fset 'yes-or-no-p 'y-or-n-p)
    #+END_SRC
-
 ** Windows
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defun contextual-menubar (&optional frame)
        "Display the menubar in FRAME (default: selected frame) if on a
-         graphical display, but hide it if in terminal."
+	 graphical display, but hide it if in terminal."
        (interactive)
+       (set-frame-parameter frame 'scroll-bar-mode
+		      (scroll-bar-mode -1))
        (set-frame-parameter frame 'menu-bar-lines
-   			 (if (display-graphic-p frame) 1 0)))
+		      (if (display-graphic-p frame) 1 0)))
      (tool-bar-mode -1)
      (tooltip-mode -1)
-     (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+     (if (display-graphic-p)
+	 (scroll-bar-mode -1))
      (add-hook 'after-make-frame-functions 'contextual-menubar)
      (add-hook 'after-init-hook 'contextual-menubar)
    #+END_SRC
-
 ** Clock
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (display-time-mode 1)
    #+END_SRC
-
 ** UTF-8
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (prefer-coding-system 'utf-8)
      (set-default-coding-systems 'utf-8)
@@ -264,23 +224,39 @@
      (when (eq window-system nil)
        (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
    #+END_SRC
-
 ** Clipboard
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (bind-keys ("C-S-c" . clipboard-kill-ring-save)
-                ("C-S-x" . clipboard-kill-region)
-                ("C-S-v" . clipboard-yank))
+	     ("C-S-x" . clipboard-kill-region)
+	     ("C-S-v" . clipboard-yank))
    #+END_SRC
-
+** Anzu
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package anzu
+       :ensure t
+       )
+   #+END_SRC
+** Powerline
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package powerline
+       :ensure t
+       )
+   #+END_SRC
 ** Themes
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package moe-theme
-       :init
-       (require 'moe-theme-switcher))
+       :config
+       (use-package moe-theme-switcher
+	 :ensure f
+	 :config
+	 (powerline-moe-theme)
+	 (if (daemonp)
+	  (add-hook 'after-make-frame-functions
+		    (lambda (frame)
+		      (select-frame frame)
+		      (powerline-moe-theme))))
+	 (setq powerline-default-separator 'wave)))
    #+END_SRC
-
 ** Columns
    #+BEGIN_SRC emacs-lisp :tangle yes
      (column-number-mode 1)
@@ -289,7 +265,6 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq default-frame-alist '((font . "Source Code Pro 14")))
    #+END_SRC
-
 ** Keybinds
    #+BEGIN_SRC emacs-lisp :tangle yes
      (bind-keys ("C-x b" . ibuffer))
@@ -299,25 +274,29 @@
      (use-package key-chord
        :init
        (progn
-         (key-chord-mode 1)
-         ;; k can be bound too
-         (key-chord-define-global "uu"     'undo)
-         (key-chord-define-global "êê"     'avy-goto-word-0)
-         (key-chord-define-global "ww"     'switch-window)
-         (key-chord-define-global "$$"     'avy-goto-line)
-         (key-chord-define-global "FF"     'helm-find-files)))
+	 (key-chord-mode 1)
+	 ;; k can be bound too
+	 (key-chord-define-global "uu"     'undo)
+	 (key-chord-define-global "êê"     'avy-goto-word-0)
+	 (key-chord-define-global "ww"     'switch-window)
+	 (key-chord-define-global "$$"     'avy-goto-line)
+	 (key-chord-define-global "FF"     'helm-find-files)))
    #+END_SRC
 ** Switch window
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package switch-window
        :bind (("C-x o" . switch-window)))
    #+END_SRC
+** Parens
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (show-paren-mode t)
+   #+END_SRC
 ** Smartparens
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package smartparens
        :ensure t
        :commands (smartparens-mode
-   	       smartparens-strict-mode)
+	       smartparens-strict-mode)
        :config
        (require 'smartparens-config))
    #+END_SRC
@@ -334,7 +313,6 @@
        (editorconfig-mode 1))
    #+END_SRC
 ** Yasnippet
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package yasnippet
        :ensure t
@@ -343,9 +321,7 @@
        (setq yas-snippet-dirs '("~/.emacs.d/elisp/snippets" yas-installed-snippets-dir))
        (yas-global-mode 1))
    #+END_SRC
-
 ** Magit
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package magit
        :ensure t
@@ -353,82 +329,72 @@
        (("C-x g" . magit-status))
        :config
        (with-eval-after-load 'info
-         (info-initialize)
-         (add-to-list 'Info-directory-list
-                      "~/.emacs.d/elisp/magit/Documentation/")))
+	 (info-initialize)
+	 (add-to-list 'Info-directory-list
+		   "~/.emacs.d/elisp/magit/Documentation/")))
    #+END_SRC
-
 ** mu4e
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (if (file-accessible-directory-p "~/.emacs.d/elisp/mu")
-         (use-package mu4e
-   	:ensure f
-   	:load-path "~/.emacs.d/elisp/mu/mu4e"
-   	:init
-   	(require 'mu4e-contrib)
-   	(setq mu4e-html2text-command 'mu4e-shr2text)
-
-   	(setq mu4e-mu-binary "~/.emacs.d/elisp/mu/mu/mu"
-   	      mu4e-maildir "~/Mails"
-   	      mu4e-drafts-folder "/Drafts"
-   	      mu4e-sent-folder "/Sent"
-   	      mu4e-trash-folder "/Trash"
-   	      mu4e-refile-folder "/Archives"
-   	      mu4e-get-mail-command "mbsync -a"
-   	      mu4e-update-interval 60
-   	      message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
-   	      mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
-   	      )
-
-   	(setq mu4e-change-filenames-when-moving t)
-
-   	(setq mu4e-bookmarks
-   	      '( ("flag:unread AND NOT flag:trashed" "Unread messages"      ?u)
-   		 ("date:today..now"                  "Today's messages"     ?t)
-   		 ("date:7d..now"                     "Last 7 days"          ?w)
-   		 ("maildir:\"/INBOX\""                     "Inbox"          ?p)))
-   	(setq auth-sources '("~/Documents/Security/mails/auth.gpg"))
-   	(setq message-send-mail-function 'smtpmail-send-it
-   	      smtpmail-stream-type 'starttls
-   	      smtpmail-smtp-server "mx.mkfs.fr"
-   	      smtpmail-smtp-service 587
-   	      smtpmail-queue-mail nil
-   	      smtpmail-queue-dir "~/Mails/queue/cur"
-   	      )
-   	:config
-   	(add-to-list 'mu4e-view-actions
-   		     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
-   	(add-hook 'mu4e-compose-mode-hook 'turn-on-orgstruct)
-   	(add-hook 'mu4e-compose-mode-hook 'auto-fill-mode)
-   	:bind
-   	(("C-x a j" . mu4e))))
+	 (use-package mu4e
+	:ensure f
+	:load-path "~/.emacs.d/elisp/mu/mu4e"
+	:init
+	(require 'mu4e-contrib)
+	(setq mu4e-html2text-command 'mu4e-shr2text)
+	(setq mu4e-mu-binary "~/.emacs.d/elisp/mu/mu/mu"
+	      mu4e-maildir "~/Mails"
+	      mu4e-drafts-folder "/Drafts"
+	      mu4e-sent-folder "/Sent"
+	      mu4e-trash-folder "/Trash"
+	      mu4e-refile-folder "/Archives"
+	      mu4e-get-mail-command "mbsync -a"
+	      mu4e-update-interval 60
+	      message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
+	      mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
+	      )
+	(setq mu4e-change-filenames-when-moving t)
+	(setq mu4e-bookmarks
+	      '( ("flag:unread AND NOT flag:trashed" "Unread messages"      ?u)
+		 ("date:today..now"                  "Today's messages"     ?t)
+		 ("date:7d..now"                     "Last 7 days"          ?w)
+		 ("maildir:\"/INBOX\""                     "Inbox"          ?p)))
+	(setq auth-sources '("~/Documents/Security/mails/auth.gpg"))
+	(setq message-send-mail-function 'smtpmail-send-it
+	      smtpmail-stream-type 'starttls
+	      smtpmail-smtp-server "mx.mkfs.fr"
+	      smtpmail-smtp-service 587
+	      smtpmail-queue-mail nil
+	      smtpmail-queue-dir "~/Mails/queue/cur"
+	      )
+	:config
+	(add-to-list 'mu4e-view-actions
+		     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+	(add-hook 'mu4e-compose-mode-hook 'turn-on-orgstruct)
+	(add-hook 'mu4e-compose-mode-hook 'auto-fill-mode)
+	:bind
+	(("C-x a j" . mu4e))))
    #+END_SRC
-
 *** mu4e alert
-
     #+BEGIN_SRC emacs-lisp :tangle yes
       (if (file-accessible-directory-p "~/.emacs.d/elisp/mu")
-          (use-package mu4e-alert
-    	:ensure t
-    	:init
-    	(mu4e-alert-set-default-style 'libnotify)
-    	(mu4e-alert-enable-notifications)
-    	(mu4e-alert-enable-mode-line-display)
-    	(setq mu4e-alert-interesting-mail-query
-    	      (concat
-    	       "flag:unread"
-    	       " AND NOT flag:trashed"))
-    	))
+	  (use-package mu4e-alert
+	:ensure t
+	:init
+	(mu4e-alert-set-default-style 'libnotify)
+	(mu4e-alert-enable-notifications)
+	(mu4e-alert-enable-mode-line-display)
+	(setq mu4e-alert-interesting-mail-query
+	      (concat
+	       "flag:unread"
+	       " AND NOT flag:trashed"))
+	))
     #+END_SRC
 ** Quick jump
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package avy)
    #+END_SRC
-
 ** Org-mode
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package org
        :init
@@ -436,47 +402,40 @@
        (setq org-odt-data-dir "~/.emacs.d/elisp/org-mode/etc/")
        (setq org-odt-styles-dir "~/.emacs.d/elisp/org-mode/etc/styles/")
        (setq org-todo-keywords
-             '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-               (sequence "TODO(b)" "TOSEND(s)" "|" "DONE(d)")
-               (sequence "WAITING(w)" "HOLD(h)" "SOMEDAY(o)" "|" "CANCELLED(c)")))
+	  '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+	    (sequence "TODO(b)" "TOSEND(s)" "|" "DONE(d)")
+	    (sequence "WAITING(w)" "HOLD(h)" "SOMEDAY(o)" "|" "CANCELLED(c)")))
        :bind
        (("C-x a a" . org-agenda))
        )
    #+END_SRC
-
 *** Org Agenda
-
     #+BEGIN_SRC emacs-lisp :tangle yes
       (setq org-agenda-files (list "~/Git repositories/Org mode/perso.org"
-                                   "~/Git repositories/Org mode/tech.org" 
-                                   "~/Git repositories/Org mode/work.org"))
+			       "~/Git repositories/Org mode/tech.org"
+			       "~/Git repositories/Org mode/work.org"))
       (setq org-agenda-todo-ignore-scheduled t)
       (setq org-agenda-skip-scheduled-if-done t)
       (setq org-agenda-skip-deadline-if-done t)
       (setq org-agenda-start-on-weekday nil)
-
       (defun org-archive-done-tasks ()
-        "Archive finished or cancelled tasks."
-        (interactive)
-        (org-map-entries
-         (lambda ()
-           (org-archive-subtree)
-           (setq org-map-continue-from (outline-previous-heading)))
-         "TODO=\"DONE\"|TODO=\"CANCELLED\"" (if (org-before-first-heading-p) 'file 'tree)))
+	"Archive finished or cancelled tasks."
+	(interactive)
+	(org-map-entries
+	 (lambda ()
+	   (org-archive-subtree)
+	   (setq org-map-continue-from (outline-previous-heading)))
+	 "TODO=\"DONE\"|TODO=\"CANCELLED\"" (if (org-before-first-heading-p) 'file 'tree)))
     #+END_SRC
-
 ** Indentation
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq tab-width 2)
      (setq indent-tabs-mode nil)
    #+END_SRC
-
 ** Cleanup
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (add-hook 'before-save-hook 'whitespace-cleanup)
    #+END_SRC
-
 ** Python
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package python
@@ -484,13 +443,13 @@
        :mode ("\\.py" . python-mode)
        :config
        (use-package elpy
-         :ensure t
-         :commands elpy-enable
-         :config
-         (setq elpy-rpc-python-command "python3"
-   	    elpy-modules (dolist (elem '(elpy-module-highlight-indentation
-   					 elpy-module-yasnippet))
-   			   (remove elem elpy-modules))))
+	 :ensure t
+	 :commands elpy-enable
+	 :config
+	 (setq elpy-rpc-python-command "python3"
+	    elpy-modules (dolist (elem '(elpy-module-highlight-indentation
+					 elpy-module-yasnippet))
+			   (remove elem elpy-modules))))
        (elpy-enable)
        (add-hook 'python-mode-hook #'smartparens-strict-mode))
    #+END_SRC
@@ -501,15 +460,12 @@
        )
    #+END_SRC
 ** Yaml-Mode
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package yaml-mode
        :ensure t
        )
    #+END_SRC
-
 ** Ansible-Mode
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package ansible
        :ensure t
