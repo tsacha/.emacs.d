@@ -1,5 +1,10 @@
 #+TITLE: Sacha Trémoureux's Emacs Configuration
 #+OPTIONS: toc:2 h:2
+** Proxy configuration
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (if (file-accessible-directory-p "~/.emacs.d/proxy")
+	 (load "~/.emacs.d/proxy" t))
+   #+END_SRC
 ** Initialization
    #+BEGIN_SRC emacs-lisp :tangle yes
      (package-initialize)
