@@ -42,7 +42,6 @@
        (require 'use-package))
      (setq use-package-verbose t)
      (setq use-package-always-ensure t)
-     (require 'use-package)
      (use-package auto-compile
        :config (auto-compile-on-load-mode))
      (setq load-prefer-newer t)
@@ -127,60 +126,6 @@
 	 (setq undo-tree-visualizer-timestamps t)
 	 (setq undo-tree-visualizer-diff t)))
    #+END_SRC
-** Helm Mode
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package helm
-       :diminish helm-mode
-       :init
-       (progn
-	 (require 'helm-config)
-	 (setq helm-candidate-number-limit 100)
-	 ;; From https://gist.github.com/antifuchs/9238468
-	 (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
-	    helm-input-idle-delay 0.01  ; this actually updates things
-					  ; reeeelatively quickly.
-	    helm-yas-display-key-on-candidate t
-	    helm-quick-update t
-	    helm-M-x-requires-pattern nil
-	    helm-ff-skip-boring-files t)
-	 (helm-mode)
-	 (helm-autoresize-mode))
-       :config
-       (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-       (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
-       (define-key helm-map (kbd "C-j") 'helm-select-action)
-       :bind (("C-c h" . helm-mini)
-	   ("C-h a" . helm-apropos)
-	   ("C-x C-f" . helm-find-files)
-	   ("C-x C-b" . helm-buffers-list)
-	   ("M-y" . helm-show-kill-ring)
-	   ("M-x" . helm-M-x)
-	   ("M-=" . helm-do-grep-ag)
-	   ("C-x c o" . helm-occur)
-	   ("C-x c y" . helm-yas-complete)
-	   ("C-x c Y" . helm-yas-create-snippet-on-region)
-	   ("C-x c SPC" . helm-all-mark-rings)))
-   #+END_SRC
-*** Helm Swoop
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package helm-swoop
-	:ensure t
-	:bind
-	(("C-s" . helm-swoop)
-	 ("C-S-s" . helm-multi-swoop-all))
-	:config
-	(setq helm-swoop-speed-or-color t)
-	(setq helm-swoop-pre-input-function
-	  (lambda () ""))
-	)
-    #+END_SRC
-*** Helm AG
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package helm-ag
-	:ensure t
-	:bind
-	(("C-M-=" . helm-ag)))
-    #+END_SRC
 ** Registers
    #+BEGIN_SRC emacs-lisp :tangle yes
      (set-register ?s '(file . "~/.emacs.d/sacha.org"))
@@ -240,31 +185,65 @@
        :ensure t
        )
    #+END_SRC
+** Line numbers
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package nlinum
+    :ensure t
+    :config
+    (global-hl-line-mode 1)
+    )
+#+END_SRC
+** All-the-icons
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package all-the-icons
+    :ensure t)
+#+END_SRC
+** Neotree
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package neotree
+       :ensure t
+       :config
+       (setq neo-theme 'icons))
+   #+END_SRC
+** Themes
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package doom-themes
+       :ensure t
+       :config
+       (load-theme 'doom-one t)
+       (require 'doom-neotree)
+       (setq doom-neotree-enable-file-icons t)
+       (require 'doom-nlinum)
+       ;; brighter source buffers (that represent files)
+       ;; if you use auto-revert-mode
+       (add-hook 'after-revert-hook 'doom-buffer-mode-maybe)
+       ;; brighter minibuffer when active
+       (add-hook 'minibuffer-setup-hook 'doom-brighten-minibuffer)
+       :diminish doom
+     )
+   #+END_SRC
 ** Powerline
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package powerline
        :ensure t
-       )
-   #+END_SRC
-** Themes
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package moe-theme
-       :ensure t
        :config
-       (moe-dark)
+       (powerline-default-theme)
        )
    #+END_SRC
+
 ** Columns
    #+BEGIN_SRC emacs-lisp :tangle yes
      (column-number-mode 1)
    #+END_SRC
 ** Fonts
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq default-frame-alist '((font . "DejaVu Sans Mono 13")))
+     (setq default-frame-alist '((font . "Fira Mono Medium 15")))
    #+END_SRC
 ** Keybinds
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (bind-keys ("C-x b" . ibuffer))
+     (bind-keys ("C-x b" . ibuffer)
+	     ("<f8>" . neotree-toggle)
+	     ("<f9>" . nlinum-mode))
    #+END_SRC
 ** Key-chords
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -273,29 +252,15 @@
        (progn
 	 (key-chord-mode 1)
 	 ;; k can be bound too
-	 (key-chord-define-global "uu"     'undo)
-	 (key-chord-define-global "êê"     'avy-goto-word-0)
-	 (key-chord-define-global "ww"     'switch-window)
-	 (key-chord-define-global "$$"     'avy-goto-line)
+	 (key-chord-define-global "««"     'avy-goto-word-0)
+	 (key-chord-define-global "»»"     'switch-window)
+	 (key-chord-define-global "çç"     'avy-goto-line)
 	 (key-chord-define-global "FF"     'helm-find-files)))
    #+END_SRC
 ** Switch window
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package switch-window
        :bind (("C-x o" . switch-window)))
-   #+END_SRC
-** Parens
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (show-paren-mode t)
-   #+END_SRC
-** Smartparens
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package smartparens
-       :ensure t
-       :commands (smartparens-mode
-	       smartparens-strict-mode)
-       :config
-       (require 'smartparens-config))
    #+END_SRC
 ** Tramp
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -400,8 +365,13 @@
        (setq org-odt-styles-dir "~/.emacs.d/elisp/org-mode/etc/styles/")
        (setq org-todo-keywords
 	  '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-	    (sequence "TODO(b)" "TOSEND(s)" "|" "DONE(d)")
-	    (sequence "WAITING(w)" "HOLD(h)" "SOMEDAY(o)" "|" "CANCELLED(c)")))
+	 (sequence "TODO(b)" "TOSEND(s)" "|" "DONE(d)")
+	 (sequence "WAITING(w)" "HOLD(h)" "SOMEDAY(o)" "|" "CANCELLED(c)")))
+       :config
+       (setq org-fontify-whole-heading-line t
+	  org-fontify-done-headline t
+	  org-src-fontify-natively t
+	  org-fontify-quote-and-verse-blocks t)
        :bind
        (("C-x a a" . org-agenda))
        )
@@ -437,18 +407,7 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package python
        :ensure t
-       :mode ("\\.py" . python-mode)
-       :config
-       (use-package elpy
-	 :ensure t
-	 :commands elpy-enable
-	 :config
-	 (setq elpy-rpc-python-command "python3"
-	    elpy-modules (dolist (elem '(elpy-module-highlight-indentation
-					 elpy-module-yasnippet))
-			   (remove elem elpy-modules))))
-       (elpy-enable)
-       (add-hook 'python-mode-hook #'smartparens-strict-mode))
+       :mode ("\\.py" . python-mode))
    #+END_SRC
 ** Markdown
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -483,5 +442,11 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company
     :config
-    (add-hook 'prog-mode-hook 'company-mode))
+    (add-hook 'prog-mode-hook 'company-mode)
+    (with-eval-after-load 'company
+    (define-key company-active-map (kbd "M-n") nil)
+    (define-key company-active-map (kbd "M-p") nil)
+    (define-key company-active-map (kbd "C-n") #'company-select-next)
+    (define-key company-active-map (kbd "C-p") #'company-select-previous))
+    )
 #+END_SRC
