@@ -189,7 +189,8 @@
   :bind (
 	 ("C-s" . swiper)
 	 ("C-M-=" . counsel-ag)
-	 ("M-x" . counsel-M-x)))
+	 ("M-x" . counsel-M-x))
+  :diminish ivy-mode)
    #+END_SRC
 ** Anzu
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -489,5 +490,6 @@
     (define-key company-active-map (kbd "M-p") nil)
     (define-key company-active-map (kbd "C-n") #'company-select-next)
     (define-key company-active-map (kbd "C-p") #'company-select-previous))
+  :diminish company-mode
   )
    #+END_SRC
