@@ -287,6 +287,7 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package git-gutter
     :commands (git-gutter-mode)
+    :diminish git-gutter-mode
     :init
     (global-git-gutter-mode)
     :config
