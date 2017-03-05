@@ -2,476 +2,492 @@
 #+OPTIONS: toc:2 h:2
 ** Proxy configuration
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (if (file-readable-p "~/.emacs.d/proxy")
-	 (load "~/.emacs.d/proxy" t))
+(if (file-readable-p "~/.emacs.d/proxy")
+    (load "~/.emacs.d/proxy" t))
    #+END_SRC
 ** Initialization
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (package-initialize)
-     (add-to-list 'load-path "~/.emacs.d/elisp/use-package")
-     (add-to-list 'load-path "~/.emacs.d/elisp/org-mode/lisp")
-     (add-to-list 'load-path "~/.emacs.d/elisp/org-mode/contrib/lisp")
-     (setq package-enable-at-startup nil)
+(package-initialize)
+(add-to-list 'load-path "~/.emacs.d/elisp/use-package")
+(add-to-list 'load-path "~/.emacs.d/elisp/org-mode/lisp")
+(add-to-list 'load-path "~/.emacs.d/elisp/org-mode/contrib/lisp")
+(setq package-enable-at-startup nil)
    #+END_SRC
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (unless (assoc-default "melpa" package-archives)
-       (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-       )
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+  )
    #+END_SRC
 ** Startup messages
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq inhibit-startup-message t
-	initial-scratch-message ""
-	inhibit-startup-echo-area-message t)
+(setq inhibit-startup-message t
+      initial-scratch-message ""
+      inhibit-startup-echo-area-message t)
    #+END_SRC
 ** Personal informations
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq user-full-name "Sacha Trémoureux"
-	user-mail-address "sacha@tremoureux.fr")
+(setq user-full-name "Sacha Trémoureux"
+      user-mail-address "sacha@tremoureux.fr")
    #+END_SRC
 ** Latitude / Longitude
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq calendar-latitude +47.23)
-     (setq calendar-longitude -1.63)
-     (setq calendar-location-name "Nantes, France")
+(setq calendar-latitude +47.23)
+(setq calendar-longitude -1.63)
+(setq calendar-location-name "Nantes, France")
    #+END_SRC
 ** Packages
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (add-to-list 'load-path "~/.emacs.d/elisp")
-     (eval-when-compile
-       (require 'use-package))
-     (setq use-package-verbose t)
-     (setq use-package-always-ensure t)
-     (use-package auto-compile
-       :config (auto-compile-on-load-mode))
-     (setq load-prefer-newer t)
+(add-to-list 'load-path "~/.emacs.d/elisp")
+(eval-when-compile
+  (require 'use-package))
+(setq use-package-verbose t)
+(setq use-package-always-ensure t)
+(use-package auto-compile
+  :config (auto-compile-on-load-mode))
+(setq load-prefer-newer t)
    #+END_SRC
 ** Libraries
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package dash)
+(use-package dash)
    #+END_SRC
 ** History
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq savehist-file "~/.emacs.d/savehist")
-     (savehist-mode 1)
-     (setq history-length t)
-     (setq history-delete-duplicates t)
-     (setq savehist-save-minibuffer-history 1)
-     (setq savehist-additional-variables
-	'(kill-ring
-	  search-ring
-	  regexp-search-ring))
+(setq savehist-file "~/.emacs.d/savehist")
+(savehist-mode 1)
+(setq history-length t)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history 1)
+(setq savehist-additional-variables
+      '(kill-ring
+	search-ring
+	regexp-search-ring))
    #+END_SRC
 ** Backups
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-     (setq delete-old-versions -1)
-     (setq version-control t)
-     (setq vc-make-backup-files t)
-     (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
    #+END_SRC
 ** Recent files
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (require 'recentf)
-     (setq recentf-mnnnax-saved-items 200
-	recentf-max-menu-items 15)
-     (recentf-mode)
+(require 'recentf)
+(setq recentf-mnnnax-saved-items 200
+      recentf-max-menu-items 15)
+(recentf-mode)
    #+END_SRC
 ** Sentences end with a single space
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq sentence-end-double-space nil)
+(setq sentence-end-double-space nil)
    #+END_SRC
 ** Buffer / File Warnings
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq confirm-nonexistent-file-or-buffer nil)
-     ;; via https://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/
-     (defun create-non-existent-directory ()
-       "Check whether a given file's parent directories exist; if they do not, offer to create them."
-       (let ((parent-directory (file-name-directory buffer-file-name)))
-	 (when (and (not (file-exists-p parent-directory))
-		 (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
-	(make-directory parent-directory t))))
-     (add-to-list 'find-file-not-found-functions #'create-non-existent-directory)
+(setq confirm-nonexistent-file-or-buffer nil)
+;; via https://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/
+(defun create-non-existent-directory ()
+  "Check whether a given file's parent directories exist; if they do not, offer to create them."
+  (let ((parent-directory (file-name-directory buffer-file-name)))
+    (when (and (not (file-exists-p parent-directory))
+	       (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
+      (make-directory parent-directory t))))
+(add-to-list 'find-file-not-found-functions #'create-non-existent-directory)
    #+END_SRC
 ** Aspell
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq-default ispell-program-name "aspell")
-     (setq ispell-dictionary "francais")
+(setq-default ispell-program-name "aspell")
+(setq ispell-dictionary "francais")
    #+END_SRC
 ** Tramp
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq tramp-default-method "ssh")
+(setq tramp-default-method "ssh")
    #+END_SRC
 ** Window management
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package switch-window
-       :bind (("C-x o" . switch-window)))
+(use-package switch-window
+  :bind (("C-x o" . switch-window)))
    #+END_SRC
 ** Diminish Mode
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package diminish
-       :ensure t
-       )
+(use-package diminish
+  :ensure t
+  )
    #+END_SRC
 ** Undo-tree
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package undo-tree
-       :diminish undo-tree-mode
-       :bind
-       (("M-+" . undo-tree-undo)
-	("M--" . undo-tree-redo))
-       :config
-       (progn
-	 (global-undo-tree-mode)
-	 (setq undo-tree-visualizer-timestamps t)
-	 (setq undo-tree-visualizer-diff t)))
+(use-package undo-tree
+  :diminish undo-tree-mode
+  :bind
+  (("M-+" . undo-tree-undo)
+   ("M--" . undo-tree-redo))
+  :config
+  (progn
+    (global-undo-tree-mode)
+    (setq undo-tree-visualizer-timestamps t)
+    (setq undo-tree-visualizer-diff t)))
    #+END_SRC
 ** Registers
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (set-register ?s '(file . "~/.emacs.d/sacha.org"))
-     (set-register ?w '(file . "~/Documents/Org/work.org"))
-     (set-register ?t '(file . "~/Documents/Org/tech.org"))
-     (set-register ?p '(file . "~/Documents/Org/perso.org"))
+(set-register ?s '(file . "~/.emacs.d/sacha.org"))
+(set-register ?w '(file . "~/Documents/Org/work.org"))
+(set-register ?t '(file . "~/Documents/Org/tech.org"))
+(set-register ?p '(file . "~/Documents/Org/perso.org"))
    #+END_SRC
 ** Startup Messages
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq inhibit-startup-message t
-	initial-scratch-message ""
-	inhibit-startup-echo-area-message t)
+(setq inhibit-startup-message t
+      initial-scratch-message ""
+      inhibit-startup-echo-area-message t)
    #+END_SRC
 ** yes/no questions
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (fset 'yes-or-no-p 'y-or-n-p)
+(fset 'yes-or-no-p 'y-or-n-p)
    #+END_SRC
 ** Windows
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (defun contextual-menubar (&optional frame)
-       "Display the menubar in FRAME (default: selected frame) if on a
+(defun contextual-menubar (&optional frame)
+  "Display the menubar in FRAME (default: selected frame) if on a
 	graphical display, but hide it if in terminal."
-       (interactive)
-       (set-frame-parameter frame 'scroll-bar-mode
-			 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)))
-       (set-frame-parameter frame 'menu-bar-lines
-			 (if (display-graphic-p frame) 1 0)))
-     (tool-bar-mode -1)
-     (tooltip-mode -1)
-     (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-     (add-hook 'after-make-frame-functions 'contextual-menubar)
-     (add-hook 'after-init-hook 'contextual-menubar)
+  (interactive)
+  (set-frame-parameter frame 'scroll-bar-mode
+		       (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)))
+  (set-frame-parameter frame 'menu-bar-lines
+		       (if (display-graphic-p frame) 1 0)))
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(add-hook 'after-make-frame-functions 'contextual-menubar)
+(add-hook 'after-init-hook 'contextual-menubar)
    #+END_SRC
 ** Clock
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (display-time-mode 1)
+(display-time-mode 1)
    #+END_SRC
 ** UTF-8
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (prefer-coding-system 'utf-8)
-     (set-default-coding-systems 'utf-8)
-     (set-terminal-coding-system 'utf-8)
-     (set-keyboard-coding-system 'utf-8)
-     (set-language-environment 'utf-8)
-     (when (eq window-system nil)
-       (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-language-environment 'utf-8)
+(when (eq window-system nil)
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
    #+END_SRC
 ** Clipboard
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (bind-keys ("C-S-c" . clipboard-kill-ring-save)
-	     ("C-S-x" . clipboard-kill-region)
-	     ("C-S-v" . clipboard-yank))
+(bind-keys ("C-S-c" . clipboard-kill-ring-save)
+	   ("C-S-x" . clipboard-kill-region)
+	   ("C-S-v" . clipboard-yank))
+   #+END_SRC
+** Ivy
+   #+BEGIN_SRC emacs-lisp :tangle yes
+(use-package ivy
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  :bind (
+	 ("C-s" . swiper)
+	 ("C-M-=" . counsel-ag)
+	 ("M-x" . counsel-M-x)))
    #+END_SRC
 ** Anzu
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package anzu
-       :ensure t
-       )
+(use-package anzu
+  :ensure t
+  )
    #+END_SRC
 ** Line numbers
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package nlinum
-    :ensure t
-    :config
-    (global-hl-line-mode 1)
-    )
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp :tangle yes
+(use-package nlinum
+  :ensure t
+  :config
+  (global-hl-line-mode 1)
+  )
+   #+END_SRC
 ** All-the-icons
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package all-the-icons
-    :ensure t)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp :tangle yes
+(use-package all-the-icons
+  :ensure t)
+   #+END_SRC
 ** Neotree
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package neotree
-       :ensure t
-       :config
-       (setq neo-theme 'icons))
+(use-package neotree
+  :ensure t
+  :config
+  (setq neo-theme 'icons))
    #+END_SRC
 ** Themes
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package doom-themes
-       :ensure t
-       :config
-       (load-theme 'doom-one t)
-       (require 'doom-neotree)
-       (setq doom-neotree-enable-file-icons t)
-       (require 'doom-nlinum)
-       ;; brighter source buffers (that represent files)
-       ;; if you use auto-revert-mode
-       (add-hook 'after-revert-hook 'doom-buffer-mode-maybe)
-       ;; brighter minibuffer when active
-       (add-hook 'minibuffer-setup-hook 'doom-brighten-minibuffer)
-       :diminish doom
-     )
+(use-package doom-themes
+  :ensure t
+  :config
+  (load-theme 'doom-one t)
+  (require 'doom-neotree)
+  (setq doom-neotree-enable-file-icons t)
+  (require 'doom-nlinum)
+  ;; brighter source buffers (that represent files)
+  ;; if you use auto-revert-mode
+  (add-hook 'after-revert-hook 'doom-buffer-mode-maybe)
+  (add-hook 'find-file-hook 'doom-buffer-mode-maybe)
+  ;; brighter minibuffer when active
+  (add-hook 'minibuffer-setup-hook 'doom-brighten-minibuffer)
+  :diminish doom-buffer-mode
+  )
    #+END_SRC
 ** Powerline
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package powerline
-       :ensure t
-       :config
-       (powerline-default-theme)
-       )
+(use-package powerline
+  :ensure t
+  :config
+  (powerline-default-theme)
+  )
    #+END_SRC
 
 ** Columns
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (column-number-mode 1)
+(column-number-mode 1)
    #+END_SRC
 ** Fonts
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq default-frame-alist '((font . "Fira Mono Medium 15")))
+(setq default-frame-alist '((font . "Fira Mono Medium 15")))
    #+END_SRC
 ** Keybinds
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (bind-keys ("C-x b" . ibuffer)
-	     ("<f8>" . neotree-toggle)
-	     ("<f9>" . nlinum-mode))
+(bind-keys ("C-x b" . ibuffer)
+	   ("<f8>" . neotree-toggle)
+	   ("<f9>" . nlinum-mode))
    #+END_SRC
 ** Key-chords
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package key-chord
-       :init
-       (progn
-	 (key-chord-mode 1)
-	 ;; k can be bound too
-	 (key-chord-define-global "««"     'avy-goto-word-0)
-	 (key-chord-define-global "»»"     'switch-window)
-	 (key-chord-define-global "çç"     'avy-goto-line)
-	 (key-chord-define-global "FF"     'helm-find-files)))
+(use-package key-chord
+  :init
+  (progn
+    (key-chord-mode 1)
+    ;; k can be bound too
+    (key-chord-define-global "««"     'avy-goto-word-0)
+    (key-chord-define-global "»»"     'switch-window)
+    (key-chord-define-global "çç"     'avy-goto-line)
+    (key-chord-define-global "FF"     'helm-find-files)))
    #+END_SRC
 ** Switch window
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package switch-window
-       :bind (("C-x o" . switch-window)))
+(use-package switch-window
+  :bind (("C-x o" . switch-window)))
    #+END_SRC
 ** Tramp
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq tramp-default-method "ssh")
+(setq tramp-default-method "ssh")
    #+END_SRC
 ** Editor config
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package editorconfig
-       :ensure t
-       :diminish editorconfig-mode
-       :config
-       (editorconfig-mode 1))
+(use-package editorconfig
+  :ensure t
+  :diminish editorconfig-mode
+  :config
+  (editorconfig-mode 1))
    #+END_SRC
 ** Yasnippet
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package yasnippet
-       :ensure t
-       :diminish yas-minor-mode
-       :config
-       (setq yas-snippet-dirs '("~/.emacs.d/elisp/snippets" yas-installed-snippets-dir))
-       (yas-global-mode 1))
+(use-package yasnippet
+  :ensure t
+  :diminish yas-minor-mode
+  :config
+  (setq yas-snippet-dirs '("~/.emacs.d/elisp/snippets" yas-installed-snippets-dir))
+  (yas-global-mode 1))
    #+END_SRC
 ** Git Gutter
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package git-gutter
-    :commands (git-gutter-mode)
-    :diminish git-gutter-mode
-    :init
-    (global-git-gutter-mode)
-    :config
-    (require 'git-gutter-fringe)
-    ;; NOTE If you want the git gutter to be on the outside of the margins (rather
-    ;; than inside), `fringes-outside-margins' should be non-nil.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+(use-package git-gutter
+  :commands (git-gutter-mode)
+  :diminish git-gutter-mode
+  :init
+  (global-git-gutter-mode)
+  :config
+  (require 'git-gutter-fringe)
+  ;; NOTE If you want the git gutter to be on the outside of the margins (rather
+  ;; than inside), `fringes-outside-margins' should be non-nil.
 
-    ;; colored fringe "bars"
-    (define-fringe-bitmap 'git-gutter-fr:added
-      [224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224]
-      nil nil 'center)
-    (define-fringe-bitmap 'git-gutter-fr:modified
-      [224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224]
-      nil nil 'center)
-    (define-fringe-bitmap 'git-gutter-fr:deleted
-      [0 0 0 0 0 0 0 0 0 0 0 0 0 128 192 224 240 248]
-      nil nil 'center)
+  ;; colored fringe "bars"
+  (define-fringe-bitmap 'git-gutter-fr:added
+    [224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224]
+    nil nil 'center)
+  (define-fringe-bitmap 'git-gutter-fr:modified
+    [224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224]
+    nil nil 'center)
+  (define-fringe-bitmap 'git-gutter-fr:deleted
+    [0 0 0 0 0 0 0 0 0 0 0 0 0 128 192 224 240 248]
+    nil nil 'center)
 
-    ;; Refreshing git-gutter
-    (advice-add 'evil-force-normal-state :after 'git-gutter)
-    (add-hook 'focus-in-hook 'git-gutter:update-all-windows))
-#+END_SRC
+  ;; Refreshing git-gutter
+  (advice-add 'evil-force-normal-state :after 'git-gutter)
+  (add-hook 'focus-in-hook 'git-gutter:update-all-windows))
+   #+END_SRC
 ** Magit
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package magit
-       :ensure t
-       :bind
-       (("C-x g" . magit-status))
-       :config
-       (with-eval-after-load 'info
-	 (info-initialize)
-	 (add-to-list 'Info-directory-list
-		   "~/.emacs.d/elisp/magit/Documentation/")))
+(use-package magit
+  :ensure t
+  :bind
+  (("C-x g" . magit-status))
+  :config
+  (with-eval-after-load 'info
+    (info-initialize)
+    (add-to-list 'Info-directory-list
+		 "~/.emacs.d/elisp/magit/Documentation/")))
    #+END_SRC
 ** mu4e
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (if (file-accessible-directory-p "~/.emacs.d/elisp/mu")
-	 (use-package mu4e
-	:ensure f
-	:load-path "~/.emacs.d/elisp/mu/mu4e"
-	:init
-	(require 'mu4e-contrib)
-	(setq mu4e-html2text-command 'mu4e-shr2text)
-	(setq mu4e-mu-binary "~/.emacs.d/elisp/mu/mu/mu"
-	      mu4e-maildir "~/Mails"
-	      mu4e-drafts-folder "/Drafts"
-	      mu4e-sent-folder "/Sent"
-	      mu4e-trash-folder "/Trash"
-	      mu4e-refile-folder "/Archives"
-	      mu4e-get-mail-command "mbsync -a"
-	      mu4e-update-interval 60
-	      message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
-	      mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
-	      )
-	(setq mu4e-change-filenames-when-moving t)
-	(setq mu4e-bookmarks
-	      '( ("flag:unread AND NOT flag:trashed" "Unread messages"      ?u)
-		 ("date:today..now"                  "Today's messages"     ?t)
-		 ("date:7d..now"                     "Last 7 days"          ?w)
-		 ("maildir:\"/INBOX\""                     "Inbox"          ?p)))
-	(setq auth-sources '("~/Documents/Security/mails/auth.gpg"))
-	(setq message-send-mail-function 'smtpmail-send-it
-	      smtpmail-stream-type 'starttls
-	      smtpmail-smtp-server "mx.mkfs.fr"
-	      smtpmail-smtp-service 587
-	      smtpmail-queue-mail nil
-	      smtpmail-queue-dir "~/Mails/queue/cur"
-	      )
-	:config
-	(add-to-list 'mu4e-view-actions
-		     '("ViewInBrowser" . mu4e-action-view-in-browser) t)
-	(add-hook 'mu4e-compose-mode-hook 'turn-on-orgstruct)
-	(add-hook 'mu4e-compose-mode-hook 'auto-fill-mode)
-	:bind
-	(("C-x a j" . mu4e))))
+(if (file-accessible-directory-p "~/.emacs.d/elisp/mu")
+    (use-package mu4e
+      :ensure f
+      :load-path "~/.emacs.d/elisp/mu/mu4e"
+      :init
+      (require 'mu4e-contrib)
+      (setq mu4e-html2text-command 'mu4e-shr2text)
+      (setq mu4e-mu-binary "~/.emacs.d/elisp/mu/mu/mu"
+	    mu4e-maildir "~/Mails"
+	    mu4e-drafts-folder "/Drafts"
+	    mu4e-sent-folder "/Sent"
+	    mu4e-trash-folder "/Trash"
+	    mu4e-refile-folder "/Archives"
+	    mu4e-get-mail-command "mbsync -a"
+	    mu4e-update-interval 60
+	    message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
+	    mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
+	    )
+      (setq mu4e-change-filenames-when-moving t)
+      (setq mu4e-bookmarks
+	    '( ("flag:unread AND NOT flag:trashed" "Unread messages"      ?u)
+	       ("date:today..now"                  "Today's messages"     ?t)
+	       ("date:7d..now"                     "Last 7 days"          ?w)
+	       ("maildir:\"/INBOX\""                     "Inbox"          ?p)))
+      (setq auth-sources '("~/Documents/Security/mails/auth.gpg"))
+      (setq message-send-mail-function 'smtpmail-send-it
+	    smtpmail-stream-type 'starttls
+	    smtpmail-smtp-server "mx.mkfs.fr"
+	    smtpmail-smtp-service 587
+	    smtpmail-queue-mail nil
+	    smtpmail-queue-dir "~/Mails/queue/cur"
+	    )
+      :config
+      (add-to-list 'mu4e-view-actions
+		   '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+      (add-hook 'mu4e-compose-mode-hook 'turn-on-orgstruct)
+      (add-hook 'mu4e-compose-mode-hook 'auto-fill-mode)
+      :bind
+      (("C-x a j" . mu4e))))
    #+END_SRC
 *** mu4e alert
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (if (file-accessible-directory-p "~/.emacs.d/elisp/mu")
-	  (use-package mu4e-alert
-	:ensure t
-	:init
-	(mu4e-alert-set-default-style 'libnotify)
-	(mu4e-alert-enable-notifications)
-	(mu4e-alert-enable-mode-line-display)
-	(setq mu4e-alert-interesting-mail-query
-	      (concat
-	       "flag:unread"
-	       " AND NOT flag:trashed"))
-	))
+(if (file-accessible-directory-p "~/.emacs.d/elisp/mu")
+    (use-package mu4e-alert
+      :ensure t
+      :init
+      (mu4e-alert-set-default-style 'libnotify)
+      (mu4e-alert-enable-notifications)
+      (mu4e-alert-enable-mode-line-display)
+      (setq mu4e-alert-interesting-mail-query
+	    (concat
+	     "flag:unread"
+	     " AND NOT flag:trashed"))
+      ))
     #+END_SRC
 ** Quick jump
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package avy)
+(use-package avy)
    #+END_SRC
 ** Org-mode
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package org
-       :init
-       (setq org-src-tab-acts-natively t)
-       (setq org-odt-data-dir "~/.emacs.d/elisp/org-mode/etc/")
-       (setq org-odt-styles-dir "~/.emacs.d/elisp/org-mode/etc/styles/")
-       (setq org-todo-keywords
-	  '((sequence "[ ](t)" "[~](n)" "|" "[x](d)")))
-       :config
-       (setq org-fontify-whole-heading-line t
-	  org-fontify-done-headline t
-	  org-src-fontify-natively t
-	  org-fontify-quote-and-verse-blocks t)
-       :bind
-       (("C-x a a" . org-agenda))
-       )
+(use-package org
+  :init
+  (setq org-confirm-babel-evaluate nil
+	org-odt-data-dir "~/.emacs.d/elisp/org-mode/etc/"
+	org-odt-styles-dir "~/.emacs.d/elisp/org-mode/etc/styles/"
+	org-todo-keywords
+	'((sequence "[ ](t)" "[~](n)" "|" "[x](d)"))
+	org-fontify-whole-heading-line t
+	org-fontify-done-headline t
+	org-src-fontify-natively t
+	org-src-preserve-indentation t
+	org-src-tab-acts-natively t
+	org-src-window-setup 'current-window
+	org-edit-src-content-indentation 0
+	org-fontify-quote-and-verse-blocks t)
+  :bind
+  (("C-x a a" . org-agenda))
+  )
    #+END_SRC
 *** Org Agenda
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (setq org-agenda-files (list "~/Git repositories/Org mode/perso.org"
-			       "~/Git repositories/Org mode/tech.org"
-			       "~/Git repositories/Org mode/work.org"))
-      (setq org-agenda-todo-ignore-scheduled t)
-      (setq org-agenda-skip-scheduled-if-done t)
-      (setq org-agenda-skip-deadline-if-done t)
-      (setq org-agenda-start-on-weekday nil)
-      (defun org-archive-done-tasks ()
-	"Archive finished or cancelled tasks."
-	(interactive)
-	(org-map-entries
-	 (lambda ()
-	   (org-archive-subtree)
-	   (setq org-map-continue-from (outline-previous-heading)))
-	 "TODO=\"DONE\"|TODO=\"CANCELLED\"" (if (org-before-first-heading-p) 'file 'tree)))
+(setq org-agenda-files (list "~/Git repositories/Org mode/perso.org"
+			     "~/Git repositories/Org mode/tech.org"
+			     "~/Git repositories/Org mode/work.org"))
+(setq org-agenda-todo-ignore-scheduled t)
+(setq org-agenda-skip-scheduled-if-done t)
+(setq org-agenda-skip-deadline-if-done t)
+(setq org-agenda-start-on-weekday nil)
+(defun org-archive-done-tasks ()
+  "Archive finished or cancelled tasks."
+  (interactive)
+  (org-map-entries
+   (lambda ()
+     (org-archive-subtree)
+     (setq org-map-continue-from (outline-previous-heading)))
+   "TODO=\"DONE\"|TODO=\"CANCELLED\"" (if (org-before-first-heading-p) 'file 'tree)))
     #+END_SRC
 ** Indentation
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq tab-width 2)
-     (setq indent-tabs-mode nil)
+(setq tab-width 2)
+(setq indent-tabs-mode nil)
    #+END_SRC
 ** Cleanup
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (add-hook 'before-save-hook 'whitespace-cleanup)
+(add-hook 'before-save-hook 'whitespace-cleanup)
    #+END_SRC
 ** Python
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package python
-       :ensure t
-       :mode ("\\.py" . python-mode))
+(use-package python
+  :ensure t
+  :mode ("\\.py" . python-mode))
    #+END_SRC
 ** Markdown
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package markdown-mode
-       :ensure t
-       )
+(use-package markdown-mode
+  :ensure t
+  )
    #+END_SRC
 ** Yaml-Mode
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package yaml-mode
-       :ensure t
-       )
+(use-package yaml-mode
+  :ensure t
+  )
    #+END_SRC
 ** Ansible-Mode
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package ansible
-       :ensure t
-       )
+(use-package ansible
+  :ensure t
+  )
    #+END_SRC
 ** Go-Mode
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package go-mode
-    :ensure t
-    :config
-    (add-hook 'go-mode-hook
-	      (lambda ()
-		(add-hook 'before-save-hook 'gofmt-before-save)
-		(setq tab-width 2)
-		(setq indent-tabs-mode nil))))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp :tangle yes
+(use-package go-mode
+  :ensure t
+  :config
+  (add-hook 'go-mode-hook
+	    (lambda ()
+	      (add-hook 'before-save-hook 'gofmt-before-save)
+	      (setq tab-width 2)
+	      (setq indent-tabs-mode nil))))
+   #+END_SRC
 ** Company
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package company
-    :config
-    (add-hook 'prog-mode-hook 'company-mode)
-    (with-eval-after-load 'company
+   #+BEGIN_SRC emacs-lisp :tangle yes
+(use-package company
+  :config
+  (add-hook 'prog-mode-hook 'company-mode)
+  (with-eval-after-load 'company
     (define-key company-active-map (kbd "M-n") nil)
     (define-key company-active-map (kbd "M-p") nil)
     (define-key company-active-map (kbd "C-n") #'company-select-next)
     (define-key company-active-map (kbd "C-p") #'company-select-previous))
-    )
-#+END_SRC
+  )
+   #+END_SRC
