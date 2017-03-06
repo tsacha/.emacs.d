@@ -188,6 +188,7 @@
   (setq enable-recursive-minibuffers t)
   :bind (
 	 ("C-s" . swiper)
+	 ("C-x C-f" . counsel-find-file)
 	 ("C-M-=" . counsel-ag)
 	 ("M-x" . counsel-M-x))
   :diminish ivy-mode)
@@ -305,7 +306,8 @@
   :init
   (global-git-gutter-mode)
   :config
-  (require 'git-gutter-fringe)
+  (use-package git-gutter-fringe
+    :ensure t)
   ;; NOTE If you want the git gutter to be on the outside of the margins (rather
   ;; than inside), `fringes-outside-margins' should be non-nil.
 
