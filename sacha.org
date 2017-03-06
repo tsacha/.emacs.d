@@ -182,16 +182,21 @@
 ** Ivy
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ivy
+  :ensure t
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   :bind (
-	 ("C-s" . swiper)
 	 ("C-x C-f" . counsel-find-file)
 	 ("C-M-=" . counsel-ag)
 	 ("M-x" . counsel-M-x))
   :diminish ivy-mode)
+
+(use-package swiper
+  :ensure t
+  :config
+  :bind (("C-s" . swiper)))
    #+END_SRC
 ** Anzu
    #+BEGIN_SRC emacs-lisp :tangle yes
