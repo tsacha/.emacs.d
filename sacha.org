@@ -103,7 +103,8 @@
    #+END_SRC
 ** Tramp
    #+BEGIN_SRC emacs-lisp :tangle yes
-(setq tramp-default-method "ssh")
+(setq tramp-default-method "ssh"
+      tramp-backup-directory-alist backup-directory-alist)
    #+END_SRC
 ** Window management
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -252,15 +253,6 @@
   :diminish doom-buffer-mode
   )
    #+END_SRC
-** Powerline
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package powerline
-  :ensure t
-  :config
-  (powerline-default-theme)
-  )
-   #+END_SRC
-
 ** Columns
    #+BEGIN_SRC emacs-lisp :tangle yes
 (column-number-mode 1)
