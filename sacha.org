@@ -101,11 +101,6 @@
 (setq-default ispell-program-name "aspell")
 (setq ispell-dictionary "francais")
    #+END_SRC
-** Tramp
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(setq tramp-default-method "ssh"
-      tramp-backup-directory-alist backup-directory-alist)
-   #+END_SRC
 ** Window management
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package switch-window
@@ -286,7 +281,9 @@
    #+END_SRC
 ** Tramp
    #+BEGIN_SRC emacs-lisp :tangle yes
-(setq tramp-default-method "ssh")
+     (require 'tramp-cache)
+     (setq tramp-default-method "ssh"
+   	tramp-persistency-file-name "/tmp/.tramp")
    #+END_SRC
 ** Editor config
    #+BEGIN_SRC emacs-lisp :tangle yes
