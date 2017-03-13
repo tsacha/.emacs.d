@@ -283,7 +283,7 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
 (require 'tramp-cache)
 (setq tramp-default-method "ssh"
-      tramp-auto-save-directory "~/emacs/tramp-autosave")
+      tramp-auto-save-directory "~/emacs.d/tramp-autosave")
    #+END_SRC
 ** Editor config
    #+BEGIN_SRC emacs-lisp :tangle yes
