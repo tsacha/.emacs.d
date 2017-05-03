@@ -178,6 +178,24 @@
 	   ("C-S-x" . clipboard-kill-region)
 	   ("C-S-v" . clipboard-yank))
    #+END_SRC
+** Theme
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq custom-safe-themes t)
+(use-package theme-changer
+  :ensure t
+  :config
+  (use-package apropospriate-theme
+    :ensure t
+    :config
+    (load-theme 'apropospriate-light t t)
+    (load-theme 'apropospriate-dark t t)
+    (change-theme 'apropospriate-light 'apropospriate-dark)
+    (use-package cycle-themes
+      :ensure t
+      :init (setq cycle-themes-theme-list
+		  '(apropospriate-light apropospriate-dark))
+      :config (cycle-themes-mode))))
+#+END_SRC
 ** Ivy
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ag
@@ -230,24 +248,6 @@
   :config
   (setq neo-theme 'icons))
    #+END_SRC
-** Themes
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package doom-themes
-  :ensure t
-  :config
-  (load-theme 'doom-one t)
-  (require 'doom-neotree)
-  (setq doom-neotree-enable-file-icons t)
-  (require 'doom-nlinum)
-  ;; brighter source buffers (that represent files)
-  ;; if you use auto-revert-mode
-  (add-hook 'after-revert-hook 'doom-buffer-mode-maybe)
-  (add-hook 'find-file-hook 'doom-buffer-mode-maybe)
-  ;; brighter minibuffer when active
-  (add-hook 'minibuffer-setup-hook 'doom-brighten-minibuffer)
-  :diminish doom-buffer-mode
-  )
-   #+END_SRC
 ** Columns
    #+BEGIN_SRC emacs-lisp :tangle yes
 (column-number-mode 1)
@@ -258,9 +258,10 @@
    #+END_SRC
 ** Keybinds
    #+BEGIN_SRC emacs-lisp :tangle yes
-(bind-keys ("C-x b" . ibuffer)
-	   ("<f8>" . neotree-toggle)
-	   ("<f9>" . nlinum-mode))
+     (bind-keys ("C-x b" . ibuffer)
+	     ("<f7>" . cycle-themes)
+	     ("<f8>" . neotree-toggle)
+	     ("<f9>" . nlinum-mode))
    #+END_SRC
 ** Key-chords
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -303,6 +304,10 @@
   (setq yas-snippet-dirs '("~/.emacs.d/elisp/snippets" yas-installed-snippets-dir))
   (yas-global-mode 1))
    #+END_SRC
+** GPG
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq epg-gpg-program "gpg2")
+#+END_SRC
 ** Git Gutter
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package git-gutter
