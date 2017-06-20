@@ -180,21 +180,24 @@
    #+END_SRC
 ** Theme
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq custom-safe-themes t)
-(use-package theme-changer
-  :ensure t
-  :config
-  (use-package apropospriate-theme
+  (setq custom-safe-themes t)
+  (use-package theme-changer
     :ensure t
     :config
-    (load-theme 'apropospriate-light t t)
-    (load-theme 'apropospriate-dark t t)
-    (change-theme 'apropospriate-light 'apropospriate-dark)
+    (use-package foggy-night-theme
+      :ensure t
+      :config
+      (load-theme 'foggy-night t t))
+    (use-package github-theme
+      :ensure t
+      :config
+      (load-theme 'github t t))
+    (change-themee 'github 'foggy-night)
     (use-package cycle-themes
       :ensure t
       :init (setq cycle-themes-theme-list
-		  '(apropospriate-light apropospriate-dark))
-      :config (cycle-themes-mode))))
+		  '(github foggy-night))
+      :config (cycle-themes-mode)))
 #+END_SRC
 ** Ivy
    #+BEGIN_SRC emacs-lisp :tangle yes
