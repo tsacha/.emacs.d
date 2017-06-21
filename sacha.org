@@ -192,7 +192,7 @@
       :ensure t
       :config
       (load-theme 'github t t))
-    (change-themee 'github 'foggy-night)
+    (change-theme 'github 'foggy-night)
     (use-package cycle-themes
       :ensure t
       :init (setq cycle-themes-theme-list
@@ -483,6 +483,14 @@
 (use-package ansible
   :ensure t
   )
+   #+END_SRC
+** Saltstack-Mode
+   #+BEGIN_SRC emacs-lisp :tangle yes
+(use-package salt-mode
+  :ensure t
+  :config
+  (with-no-warnings
+    (require 'cl)))
    #+END_SRC
 ** Go-Mode
    #+BEGIN_SRC emacs-lisp :tangle yes
