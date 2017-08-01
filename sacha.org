@@ -107,16 +107,17 @@
 (setq-default ispell-program-name "aspell")
 (setq ispell-dictionary "francais")
    #+END_SRC
-** Window management
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package switch-window
-  :bind (("C-x o" . switch-window)))
-   #+END_SRC
 ** Scrolling
 #+BEGIN_SRC emacs-lisp :tangle yes
 (setq scroll-conservatively 101) ;; move minimum when cursor exits view, instead of recentering
 (setq mouse-wheel-scroll-amount '(1)) ;; mouse scroll moves 1 line at a time, instead of 5 lines
 (setq mouse-wheel-progressive-speed nil) ;; on a long mouse scroll keep scrolling by 1 line
+(setq jit-lock-defer-time 0)
+(setq fast-but-imprecise-scrolling t)
+(use-package smooth-scrolling
+  :ensure t
+  :config
+  (smooth-scrolling-mode 1))
 #+END_SRC
 ** Diminish Mode
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -242,23 +243,18 @@
    #+END_SRC
 ** Line numbers
    #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package nlinum
-  :ensure t
-  :config
-  (global-hl-line-mode 1)
-  )
+     (if (version< emacs-version "26.0")
+	 (use-package nlinum
+	   :ensure t
+	   :config
+	   (global-hl-line-mode 1)
+	   (bind-keys ("<f8>" . nlinum-mode)))
+       (bind-keys ("<f8>" . display-line-numbers-mode)))
    #+END_SRC
 ** All-the-icons
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package all-the-icons
   :ensure t)
-   #+END_SRC
-** Neotree
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package neotree
-  :ensure t
-  :config
-  (setq neo-theme 'icons))
    #+END_SRC
 ** Columns
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -266,7 +262,7 @@
    #+END_SRC
 ** Fonts
    #+BEGIN_SRC emacs-lisp :tangle yes
-(setq default-frame-alist '((font . "Fira Mono Medium 15")))
+(setq default-frame-alist '((font . "Fira Mono Medium 14")))
    #+END_SRC
 ** Emojis
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -277,10 +273,10 @@
 #+END_SRC
 ** Keybinds
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (bind-keys ("C-x b" . ibuffer)
-	     ("<f7>" . cycle-themes)
-	     ("<f8>" . neotree-toggle)
-	     ("<f9>" . nlinum-mode))
+(bind-keys
+ ("M-$" . other-window)
+ ("C-x b" . ibuffer)
+ ("<f7>" . cycle-themes))
    #+END_SRC
 ** Key-chords
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -293,11 +289,6 @@
     (key-chord-define-global "»»"     'switch-window)
     (key-chord-define-global "çç"     'avy-goto-line)
     (key-chord-define-global "FF"     'helm-find-files)))
-   #+END_SRC
-** Switch window
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package switch-window
-  :bind (("C-x o" . switch-window)))
    #+END_SRC
 ** Tramp
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -515,6 +506,7 @@
   :config
   (add-hook 'go-mode-hook
 	    (lambda ()
+	      (remove-hook 'before-save-hook 'whitespace-cleanup)
 	      (add-hook 'before-save-hook 'gofmt-before-save)
 	      (setq tab-width 2)
 	      (setq indent-tabs-mode nil))))
