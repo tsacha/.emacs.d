@@ -123,7 +123,7 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package diminish
   :ensure t
-  )
+  :diminish auto-revert-mode)
    #+END_SRC
 ** Undo-tree
    #+BEGIN_SRC emacs-lisp :tangle yes
