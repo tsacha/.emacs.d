@@ -145,6 +145,12 @@
 (set-register ?t '(file . "~/Documents/Org/tech.org"))
 (set-register ?p '(file . "~/Documents/Org/perso.org"))
    #+END_SRC
+** Projectile
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package projectile
+  :ensure t
+  :config (projectile-mode))
+#+END_SRC
 ** Startup Messages
    #+BEGIN_SRC emacs-lisp :tangle yes
 (setq inhibit-startup-message t
@@ -231,6 +237,10 @@
   (setq ag-reuse-buffers 't))
 (use-package counsel
   :ensure t)
+(use-package counsel-projectile
+  :ensure t
+  :config
+  (counsel-projectile-on))
 (use-package swiper
   :ensure t)
 (use-package ivy
@@ -485,7 +495,10 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package python
   :ensure t
-  :mode ("\\.py" . python-mode))
+  :mode ("\\.py" . python-mode)
+  :config
+  (setq py-python-command "python3")
+  (setq python-shell-interpreter "python3"))
    #+END_SRC
 ** Markdown
    #+BEGIN_SRC emacs-lisp :tangle yes
