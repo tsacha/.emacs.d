@@ -193,24 +193,18 @@
    #+END_SRC
 ** Theme
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq custom-safe-themes t)
-(use-package theme-changer
-  :ensure t
-  :config
+  (setq custom-safe-themes t)
   (use-package apropospriate-theme
     :ensure t
     :config
-    (load-theme 'apropospriate-dark t)
-    (load-theme 'apropospriate-light t))
-  (change-theme 'apropospriate-light 'apropospriate-dark)
+    (load-theme 'apropospriate-light t)
+    (load-theme 'apropospriate-dark t))
   (use-package cycle-themes
     :ensure t
-    :init (setq cycle-themes-theme-list
-		'(apropospriate-light apropospriate-dark))
     :config
     (cycle-themes-mode)
     (add-hook 'cycle-themes-after-cycle-hook
-	      'powerline-reset)))
+	      'powerline-reset))
 #+END_SRC
 ** Spaceline
 #+BEGIN_SRC emacs-lisp :tangle yes
