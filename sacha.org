@@ -207,7 +207,25 @@
     :ensure t
     :init (setq cycle-themes-theme-list
 		'(apropospriate-light apropospriate-dark))
-    :config (cycle-themes-mode)))
+    :config
+    (cycle-themes-mode)
+    (add-hook 'cycle-themes-after-cycle-hook
+	      'powerline-reset)))
+#+END_SRC
+** Spaceline
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config)
+  (spaceline-emacs-theme))
+#+END_SRC
+** Mode-Icons
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package mode-icons
+  :ensure t
+  :config
+  (mode-icons-mode))
 #+END_SRC
 ** Ivy
    #+BEGIN_SRC emacs-lisp :tangle yes
