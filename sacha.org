@@ -49,11 +49,11 @@
   :config (auto-compile-on-load-mode))
 (setq load-prefer-newer t)
 (use-package auto-package-update
-   :ensure t
-   :config
-   (setq auto-package-update-delete-old-versions t
-	 auto-package-update-interval 4)
-   (auto-package-update-maybe))
+  :ensure t
+  :config
+  (setq auto-package-update-delete-old-versions t
+	auto-package-update-interval 4)
+  (auto-package-update-maybe))
    #+END_SRC
 ** Libraries
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -108,7 +108,7 @@
 (setq ispell-dictionary "francais")
    #+END_SRC
 ** Scrolling
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 (setq scroll-conservatively 101) ;; move minimum when cursor exits view, instead of recentering
 (setq mouse-wheel-scroll-amount '(1)) ;; mouse scroll moves 1 line at a time, instead of 5 lines
 (setq mouse-wheel-progressive-speed nil) ;; on a long mouse scroll keep scrolling by 1 line
@@ -118,7 +118,7 @@
   :ensure t
   :config
   (smooth-scrolling-mode 1))
-#+END_SRC
+   #+END_SRC
 ** Diminish Mode
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package diminish
@@ -146,11 +146,11 @@
 (set-register ?p '(file . "~/Documents/Org/perso.org"))
    #+END_SRC
 ** Projectile
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package projectile
   :ensure t
   :config (projectile-mode))
-#+END_SRC
+   #+END_SRC
 ** Startup Messages
    #+BEGIN_SRC emacs-lisp :tangle yes
 (setq inhibit-startup-message t
@@ -197,36 +197,42 @@
 	   ("C-S-x" . clipboard-kill-region)
 	   ("C-S-v" . clipboard-yank))
    #+END_SRC
-** Theme
-#+BEGIN_SRC emacs-lisp :tangle yes
+** Spaceline and theme
+   #+BEGIN_SRC emacs-lisp :tangle yes
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config)
+  (spaceline-emacs-theme)
   (setq custom-safe-themes t)
   (use-package apropospriate-theme
     :ensure t
     :config
     (load-theme 'apropospriate-light t)
-    (load-theme 'apropospriate-dark t))
-  (use-package cycle-themes
-    :ensure t
-    :config
-    (cycle-themes-mode)
-    (add-hook 'cycle-themes-after-cycle-hook
-	      'powerline-reset))
-#+END_SRC
-** Spaceline
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package spaceline
-  :ensure t
-  :config
-  (require 'spaceline-config)
-  (spaceline-emacs-theme))
-#+END_SRC
+    (load-theme 'apropospriate-dark t)
+    (if (daemonp)
+	(add-hook 'after-make-frame-functions
+		  (lambda (frame)
+		    (select-frame frame)
+		    (load-theme 'apropospriate-dark t)
+		    (powerline-reset))))
+    (add-hook 'after-init-hook
+	      (load-theme 'apropospriate-dark t)
+	      (powerline-reset))
+    (use-package cycle-themes
+      :ensure t
+      :config
+      (cycle-themes-mode)
+      (add-hook 'cycle-themes-after-cycle-hook
+		'powerline-reset))))
+   #+END_SRC
 ** Mode-Icons
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package mode-icons
   :ensure t
   :config
   (mode-icons-mode))
-#+END_SRC
+   #+END_SRC
 ** Ivy
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ag
@@ -289,12 +295,12 @@
 (setq default-frame-alist '((font . "Fira Mono Medium 14")))
    #+END_SRC
 ** Emojis
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package emojify
   :ensure t
   :config
   (add-hook 'after-init-hook #'global-emojify-mode))
-#+END_SRC
+   #+END_SRC
 ** Keybinds
    #+BEGIN_SRC emacs-lisp :tangle yes
 (bind-keys
@@ -339,9 +345,9 @@
   (yas-global-mode 1))
    #+END_SRC
 ** GPG
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 (setq epg-gpg-program "gpg2")
-#+END_SRC
+   #+END_SRC
 ** Git Gutter
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package git-gutter
@@ -501,7 +507,7 @@
   (setq python-shell-interpreter "python3"))
    #+END_SRC
 *** YAPF
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package yapfify
   :ensure t
   :config
@@ -509,7 +515,7 @@
 	    (lambda ()
 	      (yapf-mode)
 	      (remove-hook 'before-save-hook 'whitespace-cleanup))))
-#+END_SRC
+    #+END_SRC
 ** Markdown
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package markdown-mode
@@ -562,9 +568,9 @@
   )
    #+END_SRC
 ** Twittering
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package twittering-mode
   :ensure t
   :config
   (setq twittering-use-master-password t))
-#+END_SRC
+   #+END_SRC
