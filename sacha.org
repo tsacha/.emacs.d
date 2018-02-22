@@ -21,6 +21,11 @@
 	("MELPA Stable"  . 5)
 	("GNU ELPA"      . 0)))
    #+END_SRC
+** Vendor
+#+BEGIN_SRC emacs-lisp :tangle yes
+(defvar tsacha/vendor-dir (expand-file-name "vendor" user-emacs-directory))
+(add-to-list 'load-path tsacha/vendor-dir)
+#+END_SRC
 ** Startup messages
    #+BEGIN_SRC emacs-lisp :tangle yes
 (setq inhibit-startup-message t
@@ -106,18 +111,6 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
 (setq-default ispell-program-name "aspell")
 (setq ispell-dictionary "francais")
-   #+END_SRC
-** Scrolling
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(setq scroll-conservatively 101) ;; move minimum when cursor exits view, instead of recentering
-(setq mouse-wheel-scroll-amount '(1)) ;; mouse scroll moves 1 line at a time, instead of 5 lines
-(setq mouse-wheel-progressive-speed nil) ;; on a long mouse scroll keep scrolling by 1 line
-(setq jit-lock-defer-time 0)
-(setq fast-but-imprecise-scrolling t)
-(use-package smooth-scrolling
-  :ensure t
-  :config
-  (smooth-scrolling-mode 1))
    #+END_SRC
 ** Diminish Mode
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -233,6 +226,14 @@
   :config
   (mode-icons-mode))
    #+END_SRC
+** Which-Key
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode 1)
+  :diminish which-key-mode)
+#+END_SRC
 ** Ivy
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ag
@@ -307,6 +308,7 @@
  ("M-$" . other-window)
  ("C-x b" . ibuffer)
  ("<f7>" . cycle-themes))
+(global-unset-key (kbd "C-z"))
    #+END_SRC
 ** Key-chords
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -417,7 +419,7 @@
       (setq auth-sources '("~/Documents/Security/mails/auth.gpg"))
       (setq message-send-mail-function 'smtpmail-send-it
 	    smtpmail-stream-type 'starttls
-	    smtpmail-smtp-server "mx.mkfs.fr"
+	    smtpmail-smtp-server "mx.duches.se"
 	    smtpmail-smtp-service 587
 	    smtpmail-queue-mail nil
 	    smtpmail-queue-dir "~/Mails/queue/cur"
@@ -437,6 +439,7 @@
       :ensure t
       :init
       (mu4e-alert-set-default-style 'libnotify)
+      (setq mu4e-alert-email-notification-types '(count))
       (mu4e-alert-enable-notifications)
       (mu4e-alert-enable-mode-line-display)
       (setq mu4e-alert-interesting-mail-query
@@ -516,11 +519,39 @@
 	      (yapf-mode)
 	      (remove-hook 'before-save-hook 'whitespace-cleanup))))
     #+END_SRC
+** PHP
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package php-mode
+  :ensure t
+)
+#+END_SRC
 ** Markdown
-   #+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle yes
+(defun tsacha/markdown-add-xhtml-header-and-footer (title)
+  "Wrap XHTML header and footer with given TITLE around current buffer."
+  (goto-char (point-min))
+  (insert "<!DOCTYPE html5>\n"
+	  "<html>\n"
+	  "<head>\n<title>")
+  (insert title)
+  (insert "</title>\n")
+  (insert "<meta charset=\"utf-8\" />\n")
+  (when (> (length markdown-css-paths) 0)
+    (insert (mapconcat 'markdown-stylesheet-link-string markdown-css-paths "\n")))
+  (insert "\n</head>\n\n"
+	  "<body>\n\n")
+  (goto-char (point-max))
+  (insert "\n"
+	  "</body>\n"
+	  "</html>\n"))
+
 (use-package markdown-mode
   :ensure t
-  )
+  :config
+  (setq markdown-command "pandoc -f markdown+smart -t html")
+  (setq markdown-css-paths `(,(expand-file-name "markdown.css" tsacha/vendor-dir)))
+  (eval-after-load "markdown-mode"
+    '(defalias 'markdown-add-xhtml-header-and-footer 'tsacha/markdown-add-xhtml-header-and-footer)))
    #+END_SRC
 ** Yaml-Mode
    #+BEGIN_SRC emacs-lisp :tangle yes
