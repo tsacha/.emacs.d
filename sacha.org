@@ -14,12 +14,12 @@
 (setq package-enable-at-startup nil)
 (setq package-archives
       '(("GNU ELPA"     . "https://elpa.gnu.org/packages/")
-	("MELPA Stable" . "https://stable.melpa.org/packages/")
-	("MELPA"        . "https://melpa.org/packages/"))
+        ("MELPA Stable" . "https://stable.melpa.org/packages/")
+        ("MELPA"        . "https://melpa.org/packages/"))
       package-archive-priorities
       '(("MELPA"         . 10)
-	("MELPA Stable"  . 5)
-	("GNU ELPA"      . 0)))
+        ("MELPA Stable"  . 5)
+        ("GNU ELPA"      . 0)))
    #+END_SRC
 ** Vendor
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -57,7 +57,7 @@
   :ensure t
   :config
   (setq auto-package-update-delete-old-versions t
-	auto-package-update-interval 4)
+        auto-package-update-interval 4)
   (auto-package-update-maybe))
    #+END_SRC
 ** Libraries
@@ -73,8 +73,8 @@
 (setq savehist-save-minibuffer-history 1)
 (setq savehist-additional-variables
       '(kill-ring
-	search-ring
-	regexp-search-ring))
+        search-ring
+        regexp-search-ring))
    #+END_SRC
 ** Backups
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -103,7 +103,7 @@
   "Check whether a given file's parent directories exist; if they do not, offer to create them."
   (let ((parent-directory (file-name-directory buffer-file-name)))
     (when (and (not (file-exists-p parent-directory))
-	       (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
+               (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
       (make-directory parent-directory t))))
 (add-to-list 'find-file-not-found-functions #'create-non-existent-directory)
    #+END_SRC
@@ -158,12 +158,12 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
 (defun contextual-menubar (&optional frame)
   "Display the menubar in FRAME (default: selected frame) if on a
-	graphical display, but hide it if in terminal."
+        graphical display, but hide it if in terminal."
   (interactive)
   (set-frame-parameter frame 'scroll-bar-mode
-		       (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)))
+                       (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)))
   (set-frame-parameter frame 'menu-bar-lines
-		       (if (display-graphic-p frame) 1 0)))
+                       (if (display-graphic-p frame) 1 0)))
 (tool-bar-mode -1)
 (tooltip-mode -1)
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -184,11 +184,15 @@
 (when (eq window-system nil)
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
    #+END_SRC
+** Environment variables
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setenv "SSH_AUTH_SOCK" "/run/user/1000/gnupg/S.gpg-agent.ssh")
+#+END_SRC
 ** Clipboard
    #+BEGIN_SRC emacs-lisp :tangle yes
 (bind-keys ("C-S-c" . clipboard-kill-ring-save)
-	   ("C-S-x" . clipboard-kill-region)
-	   ("C-S-v" . clipboard-yank))
+           ("C-S-x" . clipboard-kill-region)
+           ("C-S-v" . clipboard-yank))
    #+END_SRC
 ** Spaceline and theme
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -198,26 +202,27 @@
   (require 'spaceline-config)
   (spaceline-emacs-theme)
   (setq custom-safe-themes t)
-  (use-package apropospriate-theme
+  (use-package solarized-theme
     :ensure t
     :config
-    (load-theme 'apropospriate-light t)
-    (load-theme 'apropospriate-dark t)
+    (load-theme 'solarized-light t)
+    (load-theme 'solarized-dark t)
+    (setq solarized-high-contrast-mode-line t)
     (if (daemonp)
-	(add-hook 'after-make-frame-functions
-		  (lambda (frame)
-		    (select-frame frame)
-		    (load-theme 'apropospriate-dark t)
-		    (powerline-reset))))
+        (add-hook 'after-make-frame-functions
+                  (lambda (frame)
+                    (select-frame frame)
+                    (load-theme 'solarized-dark t)
+                    (powerline-reset))))
     (add-hook 'after-init-hook
-	      (load-theme 'apropospriate-dark t)
-	      (powerline-reset))
+              (load-theme 'solarized-dark t)
+              (powerline-reset))
     (use-package cycle-themes
       :ensure t
       :config
       (cycle-themes-mode)
       (add-hook 'cycle-themes-after-cycle-hook
-		'powerline-reset))))
+                'powerline-reset))))
    #+END_SRC
 ** Mode-Icons
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -245,9 +250,7 @@
 (use-package counsel
   :ensure t)
 (use-package counsel-projectile
-  :ensure t
-  :config
-  (counsel-projectile-on))
+  :ensure t)
 (use-package swiper
   :ensure t)
 (use-package ivy
@@ -258,11 +261,11 @@
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   :bind (("M-x" . counsel-M-x)
-	 ("C-s" . swiper)
-	 ("C-x C-f" . counsel-find-file)
-	 ("C-M-/" . counsel-git)
-	 ("C-M-*" . counsel-git-grep)
-	 ("C-M-=" . counsel-ag)))
+         ("C-s" . swiper)
+         ("C-x C-f" . counsel-find-file)
+         ("C-M-/" . counsel-git)
+         ("C-M-*" . counsel-git-grep)
+         ("C-M-=" . counsel-ag)))
    #+END_SRC
 ** Anzu
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -388,7 +391,7 @@
   (with-eval-after-load 'info
     (info-initialize)
     (add-to-list 'Info-directory-list
-		 "~/.emacs.d/elisp/magit/Documentation/")))
+                 "~/.emacs.d/elisp/magit/Documentation/")))
    #+END_SRC
 ** mu4e
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -400,33 +403,33 @@
       (require 'mu4e-contrib)
       (setq mu4e-html2text-command 'mu4e-shr2text)
       (setq mu4e-mu-binary "~/.emacs.d/elisp/mu/mu/mu"
-	    mu4e-maildir "~/Mails"
-	    mu4e-drafts-folder "/Drafts"
-	    mu4e-sent-folder "/Sent"
-	    mu4e-trash-folder "/Trash"
-	    mu4e-refile-folder "/Archives"
-	    mu4e-get-mail-command "mbsync -a"
-	    mu4e-update-interval 60
-	    message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
-	    mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
-	    )
+            mu4e-maildir "~/Mails"
+            mu4e-drafts-folder "/Drafts"
+            mu4e-sent-folder "/Sent"
+            mu4e-trash-folder "/Trash"
+            mu4e-refile-folder "/Archives"
+            mu4e-get-mail-command "mbsync -a"
+            mu4e-update-interval 60
+            message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
+            mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
+            )
       (setq mu4e-change-filenames-when-moving t)
       (setq mu4e-bookmarks
-	    '( ("flag:unread AND NOT flag:trashed" "Unread messages"      ?u)
-	       ("date:today..now"                  "Today's messages"     ?t)
-	       ("date:7d..now"                     "Last 7 days"          ?w)
-	       ("maildir:\"/INBOX\""                     "Inbox"          ?p)))
+            '( ("flag:unread AND NOT flag:trashed" "Unread messages"      ?u)
+               ("date:today..now"                  "Today's messages"     ?t)
+               ("date:7d..now"                     "Last 7 days"          ?w)
+               ("maildir:\"/INBOX\""                     "Inbox"          ?p)))
       (setq auth-sources '("~/Documents/Security/mails/auth.gpg"))
       (setq message-send-mail-function 'smtpmail-send-it
-	    smtpmail-stream-type 'starttls
-	    smtpmail-smtp-server "mx.duches.se"
-	    smtpmail-smtp-service 587
-	    smtpmail-queue-mail nil
-	    smtpmail-queue-dir "~/Mails/queue/cur"
-	    )
+            smtpmail-stream-type 'starttls
+            smtpmail-smtp-server "mx.duches.se"
+            smtpmail-smtp-service 587
+            smtpmail-queue-mail nil
+            smtpmail-queue-dir "~/Mails/queue/cur"
+            )
       :config
       (add-to-list 'mu4e-view-actions
-		   '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+                   '("ViewInBrowser" . mu4e-action-view-in-browser) t)
       (add-hook 'mu4e-compose-mode-hook 'turn-on-orgstruct)
       (add-hook 'mu4e-compose-mode-hook 'auto-fill-mode)
       :bind
@@ -443,9 +446,9 @@
       (mu4e-alert-enable-notifications)
       (mu4e-alert-enable-mode-line-display)
       (setq mu4e-alert-interesting-mail-query
-	    (concat
-	     "flag:unread"
-	     " AND NOT flag:trashed"))
+            (concat
+             "flag:unread"
+             " AND NOT flag:trashed"))
       ))
     #+END_SRC
 ** Quick jump
@@ -457,18 +460,18 @@
 (use-package org
   :init
   (setq org-confirm-babel-evaluate nil
-	org-odt-data-dir "~/.emacs.d/elisp/org-mode/etc/"
-	org-odt-styles-dir "~/.emacs.d/elisp/org-mode/etc/styles/"
-	org-todo-keywords
-	'((sequence "[ ](t)" "[~](n)" "|" "[x](d)"))
-	org-fontify-whole-heading-line t
-	org-fontify-done-headline t
-	org-src-fontify-natively t
-	org-src-preserve-indentation t
-	org-src-tab-acts-natively t
-	org-src-window-setup 'current-window
-	org-edit-src-content-indentation 0
-	org-fontify-quote-and-verse-blocks t)
+        org-odt-data-dir "~/.emacs.d/elisp/org-mode/etc/"
+        org-odt-styles-dir "~/.emacs.d/elisp/org-mode/etc/styles/"
+        org-todo-keywords
+        '((sequence "[ ](t)" "[~](n)" "|" "[x](d)"))
+        org-fontify-whole-heading-line t
+        org-fontify-done-headline t
+        org-src-fontify-natively t
+        org-src-preserve-indentation t
+        org-src-tab-acts-natively t
+        org-src-window-setup 'current-window
+        org-edit-src-content-indentation 0
+        org-fontify-quote-and-verse-blocks t)
   :bind
   (("C-x a a" . org-agenda))
   )
@@ -476,8 +479,8 @@
 *** Org Agenda
     #+BEGIN_SRC emacs-lisp :tangle yes
 (setq org-agenda-files (list "~/Git repositories/Org mode/perso.org"
-			     "~/Git repositories/Org mode/tech.org"
-			     "~/Git repositories/Org mode/work.org"))
+                             "~/Git repositories/Org mode/tech.org"
+                             "~/Git repositories/Org mode/work.org"))
 (setq org-agenda-todo-ignore-scheduled t)
 (setq org-agenda-skip-scheduled-if-done t)
 (setq org-agenda-skip-deadline-if-done t)
@@ -498,7 +501,9 @@
    #+END_SRC
 ** Cleanup
    #+BEGIN_SRC emacs-lisp :tangle yes
-(add-hook 'before-save-hook 'whitespace-cleanup)
+(add-hook 'before-save-hook (lambda()
+                              (whitespace-cleanup)
+                              (delete-trailing-whitespace)))
    #+END_SRC
 ** Python
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -508,6 +513,13 @@
   :config
   (setq py-python-command "python3")
   (setq python-shell-interpreter "python3"))
+
+(use-package elpy
+  :ensure t
+  :after python
+  :config
+  (elpy-enable)
+  (setq elpy-rpc-backend "jedi"))
    #+END_SRC
 *** YAPF
     #+BEGIN_SRC emacs-lisp :tangle yes
@@ -515,9 +527,9 @@
   :ensure t
   :config
   (add-hook 'python-mode-hook
-	    (lambda ()
-	      (yapf-mode)
-	      (remove-hook 'before-save-hook 'whitespace-cleanup))))
+            (lambda ()
+              (yapf-mode)
+              (remove-hook 'before-save-hook 'whitespace-cleanup))))
     #+END_SRC
 ** PHP
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -531,19 +543,19 @@
   "Wrap XHTML header and footer with given TITLE around current buffer."
   (goto-char (point-min))
   (insert "<!DOCTYPE html5>\n"
-	  "<html>\n"
-	  "<head>\n<title>")
+          "<html>\n"
+          "<head>\n<title>")
   (insert title)
   (insert "</title>\n")
   (insert "<meta charset=\"utf-8\" />\n")
   (when (> (length markdown-css-paths) 0)
     (insert (mapconcat 'markdown-stylesheet-link-string markdown-css-paths "\n")))
   (insert "\n</head>\n\n"
-	  "<body>\n\n")
+          "<body>\n\n")
   (goto-char (point-max))
   (insert "\n"
-	  "</body>\n"
-	  "</html>\n"))
+          "</body>\n"
+          "</html>\n"))
 
 (use-package markdown-mode
   :ensure t
@@ -579,11 +591,11 @@
   :ensure t
   :config
   (add-hook 'go-mode-hook
-	    (lambda ()
-	      (remove-hook 'before-save-hook 'whitespace-cleanup)
-	      (add-hook 'before-save-hook 'gofmt-before-save)
-	      (setq tab-width 2)
-	      (setq indent-tabs-mode nil))))
+            (lambda ()
+              (remove-hook 'before-save-hook 'whitespace-cleanup)
+              (add-hook 'before-save-hook 'gofmt-before-save)
+              (setq tab-width 2)
+              (setq indent-tabs-mode nil))))
    #+END_SRC
 ** Company
    #+BEGIN_SRC emacs-lisp :tangle yes
