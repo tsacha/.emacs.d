@@ -137,6 +137,7 @@
 (set-register ?w '(file . "~/Documents/Org/work.org"))
 (set-register ?t '(file . "~/Documents/Org/tech.org"))
 (set-register ?p '(file . "~/Documents/Org/perso.org"))
+(set-register ?g '(file . "~/Work/Git/deployment"))
    #+END_SRC
 ** Projectile
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -296,7 +297,7 @@
    #+END_SRC
 ** Fonts
    #+BEGIN_SRC emacs-lisp :tangle yes
-(setq default-frame-alist '((font . "Fira Mono Medium 14")))
+(setq default-frame-alist '((font . "Noto Sans Mono 14")))
    #+END_SRC
 ** Emojis
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -512,13 +513,29 @@
   :mode ("\\.py" . python-mode)
   :config
   (setq py-python-command "python3")
-  (setq python-shell-interpreter "python3"))
+  (setq python-shell-interpreter "python3")
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (push '("True"  . ?✓) prettify-symbols-alist)
+              (push '("False" . ?✘) prettify-symbols-alist)
+              (push '("None"  . ?∅) prettify-symbols-alist)
+              (push '("!"     . ?¬) prettify-symbols-alist)
+              (push '("and"   . (?\s (Br . Bl) ?\s (Br . Bl) ?\s (Bc . Bc) ?∧)) prettify-symbols-alist)
+              (push '("or"    . (?\s (Br . Bl) ?\s (Bc . Bc) ?∨)) prettify-symbols-alist)
+              (push '("!="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠)) prettify-symbols-alist)
+              (push '("<="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≤)) prettify-symbols-alist)
+              (push '(">="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≥)) prettify-symbols-alist)
+              (push '("=="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≡)) prettify-symbols-alist)
+              (prettify-symbols-mode))))
 
 (use-package elpy
   :ensure t
   :after python
   :config
   (elpy-enable)
+  (setq indent-tabs-mode nil)
+  (setq python-indent 4)
+  (setq tab-width 4)
   (setq elpy-rpc-backend "jedi"))
    #+END_SRC
 *** YAPF
@@ -529,7 +546,20 @@
   (add-hook 'python-mode-hook
             (lambda ()
               (yapf-mode)
-              (remove-hook 'before-save-hook 'whitespace-cleanup))))
+              (remove-hook 'before-save-hook 'whitespace-cleanup)))
+  (push '("True"  . ?✓) prettify-symbols-alist)
+  (push '("False" . ?✘) prettify-symbols-alist)
+  (push '("None"  . ?∅) prettify-symbols-alist)
+  (push '("!"     . ?¬) prettify-symbols-alist)
+  (push '("="     . ?≔) prettify-symbols-alist)
+  (push '("def"   . ?f) prettify-symbols-alist)
+  (push '("and"   . (?\s (Br . Bl) ?\s (Br . Bl) ?\s (Bc . Bc) ?∧)) prettify-symbols-alist)
+  (push '("or"    . (?\s (Br . Bl) ?\s (Bc . Bc) ?∨)) prettify-symbols-alist)
+  (push '("!="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠)) prettify-symbols-alist)
+  (push '("<="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≤)) prettify-symbols-alist)
+  (push '(">="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≥)) prettify-symbols-alist)
+  (push '("=="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≡)) prettify-symbols-alist)
+  (prettify-symbols-mode))
     #+END_SRC
 ** PHP
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -609,11 +639,4 @@
     (define-key company-active-map (kbd "C-p") #'company-select-previous))
   :diminish company-mode
   )
-   #+END_SRC
-** Twittering
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package twittering-mode
-  :ensure t
-  :config
-  (setq twittering-use-master-password t))
    #+END_SRC
