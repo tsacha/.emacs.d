@@ -410,7 +410,7 @@
             mu4e-trash-folder "/Trash"
             mu4e-refile-folder "/Archives"
             mu4e-get-mail-command "mbsync -a"
-            mu4e-update-interval 60
+            mu4e-update-interval 300
             message-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
             mu4e-compose-signature "Sacha Trémoureux - <sacha@tremoureux.fr>\nAdministrateur Systèmes et Réseaux\n+33 (0)7 86 46 93 68"
             )
