@@ -340,6 +340,7 @@
   :ensure t
   :diminish yas-minor-mode
   :config
+  (setq yas/indent-line nil)
   (setq yas-snippet-dirs '("~/.emacs.d/elisp/snippets" yas-installed-snippets-dir))
   (yas-global-mode 1))
    #+END_SRC
@@ -540,6 +541,8 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ansible
   :ensure t
+  :config
+  (setq ansible::vault-password-file "~/.vault_pass.txt")
   )
    #+END_SRC
 ** Saltstack-Mode
@@ -562,6 +565,21 @@
               (setq tab-width 2)
               (setq indent-tabs-mode nil))))
    #+END_SRC
+** Docker Mode
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package dockerfile-mode
+  :ensure t)
+#+END_SRC
+** HCL mode
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package hcl-mode
+  :ensure t)
+#+END_SRC
+** Terraform mode
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package terraform-mode
+  :ensure t)
+#+END_SRC
 ** Company
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package company
