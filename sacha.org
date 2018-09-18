@@ -232,14 +232,6 @@
   :config
   (mode-icons-mode))
    #+END_SRC
-** Which-Key
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode 1)
-  :diminish which-key-mode)
-#+END_SRC
 ** Ivy
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ag
@@ -381,12 +373,7 @@
 (use-package magit
   :ensure t
   :bind
-  (("C-x g" . magit-status))
-  :config
-  (with-eval-after-load 'info
-    (info-initialize)
-    (add-to-list 'Info-directory-list
-                 "~/.emacs.d/elisp/magit/Documentation/")))
+  (("C-x g" . magit-status)))
    #+END_SRC
 ** Quick jump
    #+BEGIN_SRC emacs-lisp :tangle yes
