@@ -134,7 +134,8 @@
 ** Registers
    #+BEGIN_SRC emacs-lisp :tangle yes
 (set-register ?s '(file . "~/.emacs.d/sacha.org"))
-(set-register ?g '(file . "~/Git/Work/deployment"))
+(set-register ?a '(file . "~/Git/Work/deployment"))
+(set-register ?t '(file . "~/Git/Work/infra"))
    #+END_SRC
 ** Projectile
    #+BEGIN_SRC emacs-lisp :tangle yes
