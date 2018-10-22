@@ -214,7 +214,7 @@
                     (load-theme 'solarized-light t)
                     (powerline-reset))))
     (add-hook 'after-init-hook
-              (load-theme 'solarized-light t)
+              (load-theme 'solarized-dark t)
               (powerline-reset))
     (use-package cycle-themes
       :ensure t
