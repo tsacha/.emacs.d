@@ -449,15 +449,15 @@
               (push '("=="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≡)) prettify-symbols-alist)
               (prettify-symbols-mode))))
 
-(use-package elpy
+(use-package anaconda-mode
   :ensure t
   :after python
   :config
-  (elpy-enable)
+  (add-hook 'python-mode-hook 'anaconda-mode)
+  (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
   (setq indent-tabs-mode nil)
   (setq python-indent 4)
-  (setq tab-width 4)
-  (setq elpy-rpc-backend "jedi"))
+  (setq tab-width 4))
    #+END_SRC
 *** YAPF
     #+BEGIN_SRC emacs-lisp :tangle yes
