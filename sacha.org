@@ -461,12 +461,12 @@
    #+END_SRC
 *** YAPF
     #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package yapfify
+(use-package blacken
   :ensure t
   :config
   (add-hook 'python-mode-hook
             (lambda ()
-              (yapf-mode)
+              (blacken-mode)
               (remove-hook 'before-save-hook 'whitespace-cleanup)))
   (push '("True"  . ?✓) prettify-symbols-alist)
   (push '("False" . ?✘) prettify-symbols-alist)
@@ -569,7 +569,8 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package company
   :config
-  (add-hook 'prog-mode-hook 'company-mode)
+  (add-to-list 'company-backends #'company-tabnine)
+  (add-hook 'after-init-hook 'global-company-mode)
   (with-eval-after-load 'company
     (define-key company-active-map (kbd "M-n") nil)
     (define-key company-active-map (kbd "M-p") nil)
