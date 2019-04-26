@@ -107,11 +107,6 @@
       (make-directory parent-directory t))))
 (add-to-list 'find-file-not-found-functions #'create-non-existent-directory)
    #+END_SRC
-** Aspell
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(setq-default ispell-program-name "aspell")
-(setq ispell-dictionary "francais")
-   #+END_SRC
 ** Diminish Mode
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package diminish
@@ -223,13 +218,6 @@
       (add-hook 'cycle-themes-after-cycle-hook
                 'powerline-reset))))
    #+END_SRC
-** Mode-Icons
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package mode-icons
-  :ensure t
-  :config
-  (mode-icons-mode))
-   #+END_SRC
 ** Ivy
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ag
@@ -258,12 +246,6 @@
          ("C-M-*" . counsel-git-grep)
          ("C-M-=" . counsel-ag)))
    #+END_SRC
-** Anzu
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package anzu
-  :ensure t
-  )
-   #+END_SRC
 ** Line numbers
    #+BEGIN_SRC emacs-lisp :tangle yes
 (if (version< emacs-version "26.0")
@@ -275,11 +257,6 @@
   (progn
     (bind-keys ("<f8>" . display-line-numbers-mode))
     (global-display-line-numbers-mode)))
-   #+END_SRC
-** All-the-icons
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package all-the-icons
-  :ensure t)
    #+END_SRC
 ** Columns
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -297,18 +274,6 @@
  ("<f7>" . cycle-themes))
 (global-unset-key (kbd "C-z"))
    #+END_SRC
-** Key-chords
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package key-chord
-  :init
-  (progn
-    (key-chord-mode 1)
-    ;; k can be bound too
-    (key-chord-define-global "««"     'avy-goto-word-0)
-    (key-chord-define-global "»»"     'switch-window)
-    (key-chord-define-global "çç"     'avy-goto-line)
-    (key-chord-define-global "FF"     'helm-find-files)))
-   #+END_SRC
 ** Tramp
    #+BEGIN_SRC emacs-lisp :tangle yes
 (require 'tramp-cache)
@@ -323,16 +288,6 @@
   :diminish editorconfig-mode
   :config
   (editorconfig-mode 1))
-   #+END_SRC
-** Yasnippet
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package yasnippet
-  :ensure t
-  :diminish yas-minor-mode
-  :config
-  (setq yas/indent-line nil)
-  (setq yas-snippet-dirs '("~/.emacs.d/elisp/snippets" yas-installed-snippets-dir))
-  (yas-global-mode 1))
    #+END_SRC
 ** GPG
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -372,10 +327,6 @@
   :ensure t
   :bind
   (("C-x g" . magit-status)))
-   #+END_SRC
-** Quick jump
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package avy)
    #+END_SRC
 ** Org-mode
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -434,20 +385,7 @@
   :mode ("\\.py" . python-mode)
   :config
   (setq py-python-command "python3")
-  (setq python-shell-interpreter "python3")
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (push '("True"  . ?✓) prettify-symbols-alist)
-              (push '("False" . ?✘) prettify-symbols-alist)
-              (push '("None"  . ?∅) prettify-symbols-alist)
-              (push '("!"     . ?¬) prettify-symbols-alist)
-              (push '("and"   . (?\s (Br . Bl) ?\s (Br . Bl) ?\s (Bc . Bc) ?∧)) prettify-symbols-alist)
-              (push '("or"    . (?\s (Br . Bl) ?\s (Bc . Bc) ?∨)) prettify-symbols-alist)
-              (push '("!="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠)) prettify-symbols-alist)
-              (push '("<="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≤)) prettify-symbols-alist)
-              (push '(">="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≥)) prettify-symbols-alist)
-              (push '("=="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≡)) prettify-symbols-alist)
-              (prettify-symbols-mode))))
+  (setq python-shell-interpreter "python3"))
 
 (use-package anaconda-mode
   :ensure t
@@ -467,20 +405,7 @@
   (add-hook 'python-mode-hook
             (lambda ()
               (blacken-mode)
-              (remove-hook 'before-save-hook 'whitespace-cleanup)))
-  (push '("True"  . ?✓) prettify-symbols-alist)
-  (push '("False" . ?✘) prettify-symbols-alist)
-  (push '("None"  . ?∅) prettify-symbols-alist)
-  (push '("!"     . ?¬) prettify-symbols-alist)
-  (push '("="     . ?≔) prettify-symbols-alist)
-  (push '("def"   . ?f) prettify-symbols-alist)
-  (push '("and"   . (?\s (Br . Bl) ?\s (Br . Bl) ?\s (Bc . Bc) ?∧)) prettify-symbols-alist)
-  (push '("or"    . (?\s (Br . Bl) ?\s (Bc . Bc) ?∨)) prettify-symbols-alist)
-  (push '("!="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≠)) prettify-symbols-alist)
-  (push '("<="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≤)) prettify-symbols-alist)
-  (push '(">="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≥)) prettify-symbols-alist)
-  (push '("=="    . (?\s (Br . Bl) ?\s (Bc . Bc) ?≡)) prettify-symbols-alist)
-  (prettify-symbols-mode))
+              (remove-hook 'before-save-hook 'whitespace-cleanup))))
     #+END_SRC
 ** PHP
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -530,14 +455,6 @@
   (setq ansible::vault-password-file "~/.vault_pass.txt")
   )
    #+END_SRC
-** Saltstack-Mode
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package salt-mode
-  :ensure t
-  :config
-  (with-no-warnings
-    (require 'cl)))
-   #+END_SRC
 ** Go-Mode
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package go-mode
@@ -565,17 +482,3 @@
 (use-package terraform-mode
   :ensure t)
 #+END_SRC
-** Company
-   #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package company
-  :config
-  (add-to-list 'company-backends #'company-tabnine)
-  (add-hook 'after-init-hook 'global-company-mode)
-  (with-eval-after-load 'company
-    (define-key company-active-map (kbd "M-n") nil)
-    (define-key company-active-map (kbd "M-p") nil)
-    (define-key company-active-map (kbd "C-n") #'company-select-next)
-    (define-key company-active-map (kbd "C-p") #'company-select-previous))
-  :diminish company-mode
-  )
-   #+END_SRC
