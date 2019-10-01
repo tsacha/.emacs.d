@@ -63,6 +63,7 @@
 ** Libraries
    #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package dash)
+(use-package dash-functional)
    #+END_SRC
 ** History
    #+BEGIN_SRC emacs-lisp :tangle yes
